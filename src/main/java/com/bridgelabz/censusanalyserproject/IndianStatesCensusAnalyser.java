@@ -14,7 +14,7 @@ import java.util.Iterator;
 public class IndianStatesCensusAnalyser {
 
     //METHOD TO LOAD CSV FILE
-    public int loadIndianCensusData(String csvFilePath) throws MyExceptions {
+    public int loadIndianCensusData(String csvFilePath) throws MyExceptions, IOException {
         int count = 0;
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
             CsvToBean<CensusData> csvToBean = new CsvToBeanBuilder(reader)
@@ -31,6 +31,8 @@ public class IndianStatesCensusAnalyser {
                 System.out.print("density: " + censusCSV.getDensityPerSqKm() + ", ");
                 System.out.println();
             }
+        } catch (NoSuchFileException e) {
+            throw new MyExceptions(MyExceptions.Exception.FILE_NOT_FOUND, "File not found");
         } catch (IOException e) {
             e.printStackTrace();
         }

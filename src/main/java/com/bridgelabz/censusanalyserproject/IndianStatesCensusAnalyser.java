@@ -16,6 +16,11 @@ public class IndianStatesCensusAnalyser {
     //METHOD TO LOAD CSV FILE
     public int loadIndianCensusData(String csvFilePath) throws MyExceptions, IOException {
         int count = 0;
+
+        String format = getFileExtension(csvFilePath);
+        if (!format.equals(".csv"))
+            throw new MyExceptions(MyExceptions.Exception.PATH_NOT_FOUND, "No such a type");
+
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
             CsvToBean<CensusData> csvToBean = new CsvToBeanBuilder(reader)
                     .withType(CensusData.class)
@@ -37,6 +42,19 @@ public class IndianStatesCensusAnalyser {
             e.printStackTrace();
         }
         return count;
+    }
+
+    //FOR FILE EXTENSION
+    private static String getFileExtension(String file) {
+        String format = null;
+        try {
+            if (file != null) {
+                format = file.substring(file.lastIndexOf("."));
+            }
+        } catch (Exception e) {
+            format = "";
+        }
+        return format;
     }
 
     //MAIN METHOD

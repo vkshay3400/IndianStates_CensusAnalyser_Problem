@@ -2,7 +2,7 @@ package com.bridgelabz.exception;
 
 public class MyExceptions extends Exception {
     public enum Exception {
-        FILE_NOT_FOUND;
+        FILE_NOT_FOUND, PATH_NOT_FOUND;
     }
 
     public Exception type;

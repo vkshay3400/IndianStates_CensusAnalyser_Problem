@@ -38,4 +38,14 @@ public class IndianStatesCensusAnalyserTest {
             Assert.assertEquals(MyExceptions.Exception.PATH_NOT_FOUND, e.type);
         }
     }
+
+    @Test
+    public void CensusAnalyser_WhenDelimiterIncorrect_ShouldReturnException() throws MyExceptions, IOException {
+        try {
+            IndianStatesCensusAnalyser censusAnalyserProblem = new IndianStatesCensusAnalyser();
+            int recordCheck = censusAnalyserProblem.loadIndianCensusData(STATE_CENSUS_DATA_PATH);
+        } catch (MyExceptions e) {
+            Assert.assertEquals(MyExceptions.Exception.WRONG_DELIMITER, e.type);
+        }
+    }
 }

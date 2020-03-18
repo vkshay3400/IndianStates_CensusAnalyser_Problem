@@ -52,7 +52,7 @@ public class IndianStateCode {
     @CsvBindByName(column = "State", required = true)
     public String state;
 
-    @CsvBindByName(column = "Name", required = true)
+    @CsvBindByName(column = "Name", required = false)
     public String name;
 
     @CsvBindByName(column = "TIN", required = true)

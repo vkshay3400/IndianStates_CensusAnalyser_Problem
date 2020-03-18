@@ -56,4 +56,13 @@ public class IndianStatesCensusAnalyserTest {
         int checkCode = codeAnalyserProblem.loadIndianStateCodeData(INDIAN_STATE_CODE_DATA_PATH);
         Assert.assertEquals(37, checkCode);
     }
+
+    @Test
+    public void givenCensusAnalyserCoderFile_WhenIncorrect_ShouldReturnException() throws MyExceptions, IOException {
+        try {
+            int recordCheck = codeAnalyserProblem.loadIndianStateCodeData(WRONG_STATE_CENSUS_DATA_PATH);
+        } catch (MyExceptions e) {
+            Assert.assertEquals(MyExceptions.Exception.FILE_NOT_FOUND, e.type);
+        }
+    }
 }

@@ -22,14 +22,14 @@ public class IndianStatesCensusAnalyser {
             throw new MyExceptions(MyExceptions.Exception.PATH_NOT_FOUND, "No such a type");
 
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
-            CsvToBean<CensusData> csvToBean = new CsvToBeanBuilder(reader)
-                    .withType(CensusData.class)
+            CsvToBean<IndianCensusData> csvToBean = new CsvToBeanBuilder(reader)
+                    .withType(IndianCensusData.class)
                     .withIgnoreLeadingWhiteSpace(true)
                     .build();
-            Iterator<CensusData> censusCSVIterator = csvToBean.iterator();
+            Iterator<IndianCensusData> censusCSVIterator = csvToBean.iterator();
             while (censusCSVIterator.hasNext()) {
                 System.out.print(count++ + " ");
-                CensusData censusCSV = censusCSVIterator.next();
+                IndianCensusData censusCSV = censusCSVIterator.next();
                 System.out.print("state: " + censusCSV.getState() + ", ");
                 System.out.print("population: " + censusCSV.getPopulation() + ", ");
                 System.out.print("area: " + censusCSV.getAreaInSqKm() + ", ");

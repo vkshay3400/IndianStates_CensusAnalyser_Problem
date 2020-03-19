@@ -14,6 +14,7 @@ public class IndianStatesCensusAnalyserTest {
     private static final String WRONG_INDIAN_STATE_CENSUS_DATA_PATH = "./src/test/resources/StateCensusData.sh";
     private static final String INDIAN_STATE_CODE_DATA_PATH = "./src/test/resources/StateCode.csv";
     private static final String WRONG_INDIAN_STATE_CODE_DATA_FILE = "./src/test/resources/StaCode.csv";
+     private static final String WRONG_INDIAN_STATE_CODE_DATA_PATH = "./src/test/resources/StateCode.sh";
 
     IndianStatesCensusAnalyser censusAnalyserProblem = new IndianStatesCensusAnalyser();
     IndianStatesCodeAnalyser codeAnalyserProblem = new IndianStatesCodeAnalyser();
@@ -62,9 +63,18 @@ public class IndianStatesCensusAnalyserTest {
     @Test
     public void givenCensusAnalyserStateCoderFile_WhenIncorrect_ShouldReturnException() throws MyExceptions {
         try {
-            int recordCheck = codeAnalyserProblem.loadIndianStateCodeData(WRONG_INDIAN_STATE_CENSUS_DATA_PATH);
+            int recordCheck = codeAnalyserProblem.loadIndianStateCodeData(WRONG_INDIAN_STATE_CODE_DATA_FILE);
         } catch (MyExceptions e) {
             Assert.assertEquals(MyExceptions.Exception.FILE_NOT_FOUND, e.type);
+        }
+    }
+
+        @Test
+    public void givenCensusAnalyserStateCode_WhenIncorrectPath_ShouldThrowException() throws MyExceptions, IOException {
+        try {
+            int recordCheck = codeAnalyserProblem.loadIndianStateCodeData(WRONG_INDIAN_STATE_CODE_DATA_PATH);
+        } catch (MyExceptions e) {
+            Assert.assertEquals(MyExceptions.Exception.PATH_NOT_FOUND, e.type);
         }
     }
 }

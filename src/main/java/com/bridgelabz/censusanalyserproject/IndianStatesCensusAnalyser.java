@@ -40,8 +40,8 @@ public class IndianStatesCensusAnalyser {
             throw new MyExceptions(MyExceptions.Exception.FILE_NOT_FOUND, "File not found");
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (RuntimeException e){
-            throw new MyExceptions(MyExceptions.Exception.WRONG_DELIMITER_OR_HEADER,"Wrong Delimiter or header not found");
+        } catch (RuntimeException e) {
+            throw new MyExceptions(MyExceptions.Exception.WRONG_DELIMITER_OR_HEADER, "Wrong Delimiter or header not found");
         }
         return count;
     }

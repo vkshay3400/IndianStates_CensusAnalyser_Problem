@@ -25,9 +25,9 @@ public class IndianStatesCodeAnalyser {
                 IndianStateCode censusCSV = statesCSVIterator.next();
                 ++recordCount;
                 System.out.print("SrNo: " + censusCSV.getSrNo() + ", ");
-                System.out.print("State: " + censusCSV.getState() + ", ");
+                System.out.print("state: " + censusCSV.getState() + ", ");
                 System.out.print("Name: " + censusCSV.getName() + ", ");
-                System.out.print("TIN: " + censusCSV.getTin() + ", ");
+                System.out.print("TIN: " + censusCSV.getTIN() + ", ");
                 System.out.print("StateCode: " + censusCSV.getStateCode() + ", ");
                 System.out.println();
             }

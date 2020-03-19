@@ -17,8 +17,8 @@ public class IndianStateCode {
         this.name = name;
     }
 
-    public void setTin(String tin) {
-        this.tin = tin;
+    public void setTIN(String TIN) {
+        this.TIN = TIN;
     }
 
     public void setStateCode(String stateCode) {
@@ -38,8 +38,8 @@ public class IndianStateCode {
         return name;
     }
 
-    public String getTin() {
-        return tin;
+    public String getTIN() {
+        return TIN;
     }
 
     public String getStateCode() {
@@ -56,7 +56,7 @@ public class IndianStateCode {
     public String name;
 
     @CsvBindByName(column = "TIN", required = true)
-    public String tin;
+    public String TIN;
 
     @CsvBindByName(column = "StateCode", required = true)
     public String stateCode;
@@ -67,7 +67,7 @@ public class IndianStateCode {
                 "SrNo='" + srNo + '\'' +
                 " ,State='" + state + '\'' +
                 " ,Name='" + name + '\'' +
-                " ,TIN='" + tin + '\'' +
+                " ,TIN='" + TIN + '\'' +
                 " ,StateCode='" + stateCode + '\'' +
                 '}';
     }

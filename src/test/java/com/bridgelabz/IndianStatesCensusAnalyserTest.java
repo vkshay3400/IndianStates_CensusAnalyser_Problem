@@ -51,14 +51,15 @@ public class IndianStatesCensusAnalyserTest {
         }
     }
 
+
     @Test
-    public void givenCensusAnalyserCode_WhenImproper_ShouldThrowException() throws MyExceptions {
+    public void givenCensusAnalyserStateCode_WhenImproper_ShouldThrowException() throws MyExceptions {
         int checkCode = codeAnalyserProblem.loadIndianStateCodeData(INDIAN_STATE_CODE_DATA_PATH);
         Assert.assertEquals(37, checkCode);
     }
 
     @Test
-    public void givenCensusAnalyserCoderFile_WhenIncorrect_ShouldReturnException() throws MyExceptions, IOException {
+    public void givenCensusAnalyserStateCoderFile_WhenIncorrect_ShouldReturnException() throws MyExceptions {
         try {
             int recordCheck = codeAnalyserProblem.loadIndianStateCodeData(WRONG_STATE_CENSUS_DATA_PATH);
         } catch (MyExceptions e) {

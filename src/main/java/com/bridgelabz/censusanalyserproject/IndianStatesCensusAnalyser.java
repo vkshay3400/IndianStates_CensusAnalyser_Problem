@@ -41,7 +41,7 @@ public class IndianStatesCensusAnalyser {
         } catch (IOException e) {
             e.printStackTrace();
         } catch (RuntimeException e) {
-            throw new MyExceptions(MyExceptions.Exception.WRONG_DELIMITER_OR_HEADER, "Wrong Delimiter or header not found");
+            throw new MyExceptions(MyExceptions.Exception.WRONG_DELIMITER, "Wrong Delimiter");
         }
         return count;
     }

@@ -13,10 +13,12 @@ public class IndianStatesCensusAnalyserTest {
     private static final String WRONG_INDIAN_STATE_CENSUS_DATA_FILE = "./src/test/resources/StateCensus.csv";
     private static final String WRONG_INDIAN_STATE_CENSUS_DATA_PATH = "./src/test/resources/StateCensusData.sh";
     private static final String WRONG_DELIMITER_STATE_CENSUS_DATA_PATH = "./src/test/resources/WrongDelimiterStateCensusData.csv";
+    private static final String WRONG_HEADER_STATE_CENSUS_DATA_PATH = "./src/test/resources/WrongHeaderStateCensusData.csv";
     private static final String INDIAN_STATE_CODE_DATA_PATH = "./src/test/resources/StateCode.csv";
     private static final String WRONG_INDIAN_STATE_CODE_DATA_FILE = "./src/test/resources/StaCode.csv";
     private static final String WRONG_INDIAN_STATE_CODE_DATA_PATH = "./src/test/resources/StateCode.sh";
     private static final String WRONG_DELIMITER_STATE_CODE_DATA_PATH = "./src/test/resources/WrongDelimiterStateCodeData.csv";
+    private static final String WRONG_HEADER_STATE_CODE_DATA_PATH = "./src/test/resources/WrongHeaderStateCodeData.csv";
 
     IndianStatesCensusAnalyser censusAnalyserProblem = new IndianStatesCensusAnalyser();
     IndianStatesCodeAnalyser codeAnalyserProblem = new IndianStatesCodeAnalyser();
@@ -53,7 +55,17 @@ public class IndianStatesCensusAnalyserTest {
             int checkCensus = censusAnalyserProblem.loadIndianCensusData(WRONG_DELIMITER_STATE_CENSUS_DATA_PATH);
             Assert.assertEquals(29, checkCensus);
         } catch (MyExceptions e) {
-            Assert.assertEquals(MyExceptions.Exception.WRONG_DELIMITER, e.type);
+            Assert.assertEquals(MyExceptions.Exception.WRONG_DELIMITER_OR_HEADER, e.type);
+        }
+    }
+
+    @Test
+    public void givenCensusAnalyser_WhenHeaderIncorrect_ShouldReturnException() throws MyExceptions, IOException {
+        try {
+            int checkCensus = censusAnalyserProblem.loadIndianCensusData(WRONG_HEADER_STATE_CENSUS_DATA_PATH);
+            Assert.assertEquals(29, checkCensus);
+        } catch (MyExceptions e) {
+            Assert.assertEquals(MyExceptions.Exception.WRONG_DELIMITER_OR_HEADER, e.type);
         }
     }
 
@@ -89,7 +101,17 @@ public class IndianStatesCensusAnalyserTest {
             int checkCode = codeAnalyserProblem.loadIndianStateCodeData(WRONG_DELIMITER_STATE_CODE_DATA_PATH);
             Assert.assertEquals(37, checkCode);
         } catch (MyExceptions e) {
-            Assert.assertEquals(MyExceptions.Exception.WRONG_DELIMITER, e.type);
+            Assert.assertEquals(MyExceptions.Exception.WRONG_DELIMITER_OR_HEADER, e.type);
+        }
+    }
+
+    @Test
+    public void givenCensusAnalyserStateCode_WhenHeaderIncorrect_ShouldReturnException() throws MyExceptions, IOException {
+        try {
+            int checkCode = codeAnalyserProblem.loadIndianStateCodeData(WRONG_HEADER_STATE_CODE_DATA_PATH);
+            Assert.assertEquals(37, checkCode);
+        } catch (MyExceptions e) {
+            Assert.assertEquals(MyExceptions.Exception.WRONG_DELIMITER_OR_HEADER, e.type);
         }
     }
 }

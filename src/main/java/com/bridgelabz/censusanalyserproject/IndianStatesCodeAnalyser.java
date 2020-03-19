@@ -41,7 +41,7 @@ public class IndianStatesCodeAnalyser {
         } catch (IOException e) {
             e.printStackTrace();
         } catch (RuntimeException e) {
-            throw new MyExceptions(MyExceptions.Exception.WRONG_DELIMITER, "Wrong Delimiter");
+            throw new MyExceptions(MyExceptions.Exception.WRONG_DELIMITER_OR_HEADER, "Wrong Delimiter or Header");
         }
         return recordCount;
     }

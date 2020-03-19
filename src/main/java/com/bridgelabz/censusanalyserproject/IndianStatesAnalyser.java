@@ -25,11 +25,7 @@ public class IndianStatesAnalyser {
             throw new MyExceptions(MyExceptions.Exception.PATH_NOT_FOUND, "No such a type");
 
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
-            CsvToBean<IndianCensusData> csvToBean = new CsvToBeanBuilder(reader)
-                    .withType(IndianCensusData.class)
-                    .withIgnoreLeadingWhiteSpace(true)
-                    .build();
-            Iterator<IndianCensusData> censusCSVIterator = csvToBean.iterator();
+            Iterator<IndianCensusData> censusCSVIterator = this.getCsvFileIterator(reader, IndianCensusData.class);
             while (censusCSVIterator.hasNext()) {
                 System.out.print(count++ + " ");
                 IndianCensusData censusCSV = censusCSVIterator.next();
@@ -58,11 +54,7 @@ public class IndianStatesAnalyser {
             throw new MyExceptions(MyExceptions.Exception.PATH_NOT_FOUND, "No such a type");
 
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
-            CsvToBean<IndianStateCode> csvToBean = new CsvToBeanBuilder(reader)
-                    .withType(IndianStateCode.class)
-                    .withIgnoreLeadingWhiteSpace(true)
-                    .build();
-            Iterator<IndianStateCode> statesCSVIterator = csvToBean.iterator();
+            Iterator<IndianStateCode> statesCSVIterator = this.getCsvFileIterator(reader, IndianStateCode.class);
             while (statesCSVIterator.hasNext()) {
                 IndianStateCode censusCSV = statesCSVIterator.next();
                 ++recordCount;
@@ -94,6 +86,15 @@ public class IndianStatesAnalyser {
             format = "";
         }
         return format;
+    }
+
+    //METHOD FOR CSV ITERATOR
+    private <E> Iterator<E> getCsvFileIterator(Reader reader, Class<E> csvClass) {
+        CsvToBeanBuilder<E> csvToBeanBuilder = new CsvToBeanBuilder(reader);
+        csvToBeanBuilder.withType(csvClass);
+        csvToBeanBuilder.withIgnoreLeadingWhiteSpace(true);
+        CsvToBean<E> csvToBean = csvToBeanBuilder.build();
+        return csvToBean.iterator();
     }
 
     //MAIN METHOD

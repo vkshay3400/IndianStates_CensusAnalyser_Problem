@@ -16,6 +16,7 @@ public class IndianStatesCensusAnalyserTest {
     private static final String INDIAN_STATE_CODE_DATA_PATH = "./src/test/resources/StateCode.csv";
     private static final String WRONG_INDIAN_STATE_CODE_DATA_FILE = "./src/test/resources/StaCode.csv";
     private static final String WRONG_INDIAN_STATE_CODE_DATA_PATH = "./src/test/resources/StateCode.sh";
+    private static final String WRONG_DELIMITER_STATE_CODE_DATA_PATH = "./src/test/resources/WrongDelimiterStateCodeData.csv";
 
     IndianStatesCensusAnalyser censusAnalyserProblem = new IndianStatesCensusAnalyser();
     IndianStatesCodeAnalyser codeAnalyserProblem = new IndianStatesCodeAnalyser();
@@ -79,6 +80,16 @@ public class IndianStatesCensusAnalyserTest {
             Assert.assertEquals(37, checkCode);
         } catch (MyExceptions e) {
             Assert.assertEquals(MyExceptions.Exception.PATH_NOT_FOUND, e.type);
+        }
+    }
+
+    @Test
+    public void givenCensusAnalyserStateCode_WhenDelimiterIncorrect_ShouldReturnException() throws MyExceptions, IOException {
+        try {
+            int checkCode = codeAnalyserProblem.loadIndianStateCodeData(WRONG_DELIMITER_STATE_CODE_DATA_PATH);
+            Assert.assertEquals(37, checkCode);
+        } catch (MyExceptions e) {
+            Assert.assertEquals(MyExceptions.Exception.WRONG_DELIMITER, e.type);
         }
     }
 }

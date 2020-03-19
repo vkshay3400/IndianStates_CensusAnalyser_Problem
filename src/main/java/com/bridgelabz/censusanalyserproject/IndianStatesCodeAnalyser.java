@@ -10,14 +10,18 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.Iterator;
+import java.util.regex.Pattern;
 
 public class IndianStatesCodeAnalyser {
+    //FOR CSV FILE
+    private static final String CSV_FILE_PATTERN = "^[a-zA-Z0-9./_@]*[.]+[c][s][v]$";
+
     //METHOD TO LOAD THE CSV FILE AND GET
     public int loadIndianStateCodeData(String csvFilePath) throws MyExceptions {
         //LOCAL VARIABLE
         int recordCount = 0;
-        String format = getFileExtension(csvFilePath);
-        if (!format.equals(".csv"))
+        String extension = getFileExtension(csvFilePath);
+        if (!Pattern.matches(CSV_FILE_PATTERN,extension))
             throw new MyExceptions(MyExceptions.Exception.PATH_NOT_FOUND, "No such a type");
 
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {

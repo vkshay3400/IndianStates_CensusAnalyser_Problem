@@ -12,16 +12,49 @@ import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.regex.Pattern;
 
-public class IndianStatesCodeAnalyser {
+public class IndianStatesAnalyser {
     //FOR CSV FILE
     private static final String CSV_FILE_PATTERN = "^[a-zA-Z0-9./_@]*[.]+[c][s][v]$";
 
-    //METHOD TO LOAD THE CSV FILE AND GET
+    //METHOD FOR STATE CENSUS
+    public int loadIndianCensusData(String csvFilePath) throws MyExceptions, IOException {
+        int count = 0;
+
+        String extension = getFileExtension(csvFilePath);
+        if (!Pattern.matches(CSV_FILE_PATTERN, extension))
+            throw new MyExceptions(MyExceptions.Exception.PATH_NOT_FOUND, "No such a type");
+
+        try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
+            CsvToBean<IndianCensusData> csvToBean = new CsvToBeanBuilder(reader)
+                    .withType(IndianCensusData.class)
+                    .withIgnoreLeadingWhiteSpace(true)
+                    .build();
+            Iterator<IndianCensusData> censusCSVIterator = csvToBean.iterator();
+            while (censusCSVIterator.hasNext()) {
+                System.out.print(count++ + " ");
+                IndianCensusData censusCSV = censusCSVIterator.next();
+                System.out.print("state: " + censusCSV.getState() + ", ");
+                System.out.print("population: " + censusCSV.getPopulation() + ", ");
+                System.out.print("area: " + censusCSV.getAreaInSqKm() + ", ");
+                System.out.print("density: " + censusCSV.getDensityPerSqKm() + ", ");
+                System.out.println();
+            }
+        } catch (NoSuchFileException e) {
+            throw new MyExceptions(MyExceptions.Exception.FILE_NOT_FOUND, "File not found");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (RuntimeException e) {
+            throw new MyExceptions(MyExceptions.Exception.WRONG_DELIMITER_OR_HEADER, "Wrong Delimiter or Header");
+        }
+        return count;
+    }
+
+    //METHOD FOR STATE CODE
     public int loadIndianStateCodeData(String csvFilePath) throws MyExceptions {
         //LOCAL VARIABLE
         int recordCount = 0;
         String extension = getFileExtension(csvFilePath);
-        if (!Pattern.matches(CSV_FILE_PATTERN,extension))
+        if (!Pattern.matches(CSV_FILE_PATTERN, extension))
             throw new MyExceptions(MyExceptions.Exception.PATH_NOT_FOUND, "No such a type");
 
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
@@ -63,4 +96,8 @@ public class IndianStatesCodeAnalyser {
         return format;
     }
 
+    //MAIN METHOD
+    public static void main(String[] args) {
+        System.out.println("Welcome to Indian Census");
+    }
 }

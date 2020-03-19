@@ -1,14 +1,13 @@
 package com.bridgelabz;
 
-import com.bridgelabz.censusanalyserproject.IndianStatesCensusAnalyser;
-import com.bridgelabz.censusanalyserproject.IndianStatesCodeAnalyser;
+import com.bridgelabz.censusanalyserproject.IndianStatesAnalyser;
 import com.bridgelabz.exception.MyExceptions;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
 
-public class IndianStatesCensusAnalyserTest {
+public class IndianStatesAnalyserTest {
     private static final String INDIAN_STATE_CENSUS_DATA_PATH = "./src/test/resources/StateCensusData.csv";
     private static final String WRONG_INDIAN_STATE_CENSUS_DATA_FILE = "./src/test/resources/StateCensus.csv";
     private static final String WRONG_INDIAN_STATE_CENSUS_DATA_PATH = "./src/test/resources/StateCensusData.sh";
@@ -20,8 +19,8 @@ public class IndianStatesCensusAnalyserTest {
     private static final String WRONG_DELIMITER_STATE_CODE_DATA_PATH = "./src/test/resources/WrongDelimiterStateCodeData.csv";
     private static final String WRONG_HEADER_STATE_CODE_DATA_PATH = "./src/test/resources/WrongHeaderStateCodeData.csv";
 
-    IndianStatesCensusAnalyser censusAnalyserProblem = new IndianStatesCensusAnalyser();
-    IndianStatesCodeAnalyser codeAnalyserProblem = new IndianStatesCodeAnalyser();
+    IndianStatesAnalyser censusAnalyserProblem = new IndianStatesAnalyser();
+    IndianStatesAnalyser codeAnalyserProblem = new IndianStatesAnalyser();
 
     @Test
     public void givenCensusAnalyserCensus_WhenImproper_ShouldThrowException() throws MyExceptions, IOException {

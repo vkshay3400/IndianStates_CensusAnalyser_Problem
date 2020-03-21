@@ -23,7 +23,7 @@ public class IndianStatesAnalyser {
         if (!Pattern.matches(CSV_FILE_PATTERN, extension))
             throw new MyExceptions(MyExceptions.Exception.PATH_NOT_FOUND, "No such a type");
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
-            Iterator<IndianCensusData> censusCSVIterator = new CsvIterator().getCsvFileIterator(reader, IndianCensusData.class);
+            Iterator<IndianCensusData> censusCSVIterator = new CsvBuilder().getCSVFileIterator(reader, IndianCensusData.class);
             return this.getCount(censusCSVIterator);
         } catch (NoSuchFileException e) {
             throw new MyExceptions(MyExceptions.Exception.FILE_NOT_FOUND, "File not found");
@@ -43,7 +43,7 @@ public class IndianStatesAnalyser {
         if (!Pattern.matches(CSV_FILE_PATTERN, extension))
             throw new MyExceptions(MyExceptions.Exception.PATH_NOT_FOUND, "No such a type");
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
-            Iterator<IndianStateCode> codeCSVIterator = new CsvIterator().getCsvFileIterator(reader, IndianStateCode.class);
+            Iterator<IndianStateCode> codeCSVIterator = new CsvBuilder().getCSVFileIterator(reader, IndianStateCode.class);
             return this.getCount(codeCSVIterator);
         } catch (NoSuchFileException e) {
             throw new MyExceptions(MyExceptions.Exception.FILE_NOT_FOUND, "File not found");

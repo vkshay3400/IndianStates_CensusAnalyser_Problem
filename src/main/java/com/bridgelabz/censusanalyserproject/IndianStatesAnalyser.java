@@ -1,8 +1,6 @@
 package com.bridgelabz.censusanalyserproject;
 
 import com.bridgelabz.exception.MyExceptions;
-import com.opencsv.bean.CsvToBean;
-import com.opencsv.bean.CsvToBeanBuilder;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -25,7 +23,7 @@ public class IndianStatesAnalyser {
         if (!Pattern.matches(CSV_FILE_PATTERN, extension))
             throw new MyExceptions(MyExceptions.Exception.PATH_NOT_FOUND, "No such a type");
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
-            Iterator<IndianCensusData> censusCSVIterator = this.getCsvFileIterator(reader, IndianCensusData.class);
+            Iterator<IndianCensusData> censusCSVIterator = new CsvIterator().getCsvFileIterator(reader, IndianCensusData.class);
             return this.getCount(censusCSVIterator);
         } catch (NoSuchFileException e) {
             throw new MyExceptions(MyExceptions.Exception.FILE_NOT_FOUND, "File not found");
@@ -45,7 +43,7 @@ public class IndianStatesAnalyser {
         if (!Pattern.matches(CSV_FILE_PATTERN, extension))
             throw new MyExceptions(MyExceptions.Exception.PATH_NOT_FOUND, "No such a type");
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
-            Iterator<IndianStateCode> codeCSVIterator = this.getCsvFileIterator(reader, IndianStateCode.class);
+            Iterator<IndianStateCode> codeCSVIterator = new CsvIterator().getCsvFileIterator(reader, IndianStateCode.class);
             return this.getCount(codeCSVIterator);
         } catch (NoSuchFileException e) {
             throw new MyExceptions(MyExceptions.Exception.FILE_NOT_FOUND, "File not found");
@@ -68,15 +66,6 @@ public class IndianStatesAnalyser {
             extension = "";
         }
         return extension;
-    }
-
-    //GENERIC METHOD FOR CSV ITERATOR
-    private <T> Iterator<T> getCsvFileIterator(Reader reader, Class<T> csvClass) {
-        CsvToBeanBuilder<T> csvToBeanBuilder = new CsvToBeanBuilder(reader);
-        csvToBeanBuilder.withType(csvClass);
-        csvToBeanBuilder.withIgnoreLeadingWhiteSpace(true);
-        CsvToBean<T> csvToBean = csvToBeanBuilder.build();
-        return csvToBean.iterator();
     }
 
     //GENERIC METHOD TO GET COUNT

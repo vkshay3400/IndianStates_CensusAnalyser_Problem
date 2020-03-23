@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.Iterator;
+import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.StreamSupport;
 
@@ -19,19 +20,19 @@ public class IndianStatesAnalyser {
     //METHOD FOR STATE CENSUS
     public int loadIndianCensusData(String csvFilePath) throws MyExceptions {
         String extension = getFileExtension(csvFilePath);
-        if (!Pattern.matches(PATTERN_FOR_CSV_FILE,extension))
-            throw new MyExceptions(MyExceptions.Exception_Type.PATH_NOT_FOUND,"No such a type");
-        try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath)))
-        {
-            Iterator<IndianCensusData> censusCSVIterator = new CsvBuilder().getCSVFileIterator(reader,IndianCensusData.class);
-            return this.getCount(censusCSVIterator);
-        } catch (RuntimeException e) {
-            throw new MyExceptions(MyExceptions.Exception_Type.WRONG_DELIMITER_OR_HEADER,"Delimiter or header not found");
-        } catch (NoSuchFileException e) {
-            throw new MyExceptions(MyExceptions.Exception_Type.FILE_NOT_FOUND,"File not found");
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (!Pattern.matches(PATTERN_FOR_CSV_FILE, extension))
+            throw new MyExceptions(MyExceptions.Exception_Type.PATH_NOT_FOUND, "No such a path");
+        try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
+            IcsvBuilder csvBuilder = CsvBuilderFactory.createCsvBuilder();
+            List<IndianCensusData> csvFileList = csvBuilder.getCSVFileList(reader, IndianCensusData.class);
+            return csvFileList.size();
         } catch (CsvBuilderException e) {
+            e.printStackTrace();
+        } catch (RuntimeException e) {
+            throw new MyExceptions(MyExceptions.Exception_Type.WRONG_DELIMITER_OR_HEADER, "Delimiter or header not found");
+        } catch (NoSuchFileException e) {
+            throw new MyExceptions(MyExceptions.Exception_Type.FILE_NOT_FOUND, "File not found");
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return 0;
@@ -40,19 +41,19 @@ public class IndianStatesAnalyser {
     //METHOD FOR STATE CODE
     public int loadIndianStateCodeData(String csvFilePath) throws MyExceptions {
         String extension = getFileExtension(csvFilePath);
-        if (!Pattern.matches(PATTERN_FOR_CSV_FILE,extension))
-            throw new MyExceptions(MyExceptions.Exception_Type.PATH_NOT_FOUND,"No such a type");
-        try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath)))
-        {
-            Iterator<IndianStateCode> statesCSVIterator = new CsvBuilder().getCSVFileIterator(reader,IndianStateCode.class);
-            return this.getCount(statesCSVIterator);
-        } catch (RuntimeException e) {
-            throw new MyExceptions(MyExceptions.Exception_Type.WRONG_DELIMITER_OR_HEADER,"No such delimiter and header");
-        } catch (NoSuchFileException e) {
-            throw new MyExceptions(MyExceptions.Exception_Type.FILE_NOT_FOUND,"File not found");
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (!Pattern.matches(PATTERN_FOR_CSV_FILE, extension))
+            throw new MyExceptions(MyExceptions.Exception_Type.PATH_NOT_FOUND, "No such a path");
+        try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
+            IcsvBuilder csvBuilder = CsvBuilderFactory.createCsvBuilder();
+            List<IndianStateCode> csvFileList = csvBuilder.getCSVFileList(reader, IndianStateCode.class);
+            return csvFileList.size();
         } catch (CsvBuilderException e) {
+            e.printStackTrace();
+        } catch (RuntimeException e) {
+            throw new MyExceptions(MyExceptions.Exception_Type.WRONG_DELIMITER_OR_HEADER, "No such delimiter and header");
+        } catch (NoSuchFileException e) {
+            throw new MyExceptions(MyExceptions.Exception_Type.FILE_NOT_FOUND, "File not found");
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return 0;
@@ -72,9 +73,9 @@ public class IndianStatesAnalyser {
     }
 
     //GENERIC METHOD TO GET COUNT
-    private <E> int getCount(Iterator <E> iterator) {
+    private <E> int getCount(Iterator<E> iterator) {
         Iterable<E> iterable = () -> iterator;
-        int recordCount= (int) StreamSupport.stream(iterable.spliterator(),false).count();
+        int recordCount = (int) StreamSupport.stream(iterable.spliterator(), false).count();
         return recordCount;
     }
 

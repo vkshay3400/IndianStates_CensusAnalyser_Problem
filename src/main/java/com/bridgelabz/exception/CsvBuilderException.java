@@ -1,13 +1,13 @@
 package com.bridgelabz.exception;
 
 public class CsvBuilderException extends Exception {
-    public enum Exception {
-        FILE_NOT_FOUND, PATH_NOT_FOUND, WRONG_DELIMITER_OR_HEADER;
+    public enum Exception_Type {
+        UNABLE_TO_PARSE;
     }
 
-    public Exception type;
+    public MyExceptions.Exception_Type type;
 
-    public CsvBuilderException(Exception type, String message) {
+    public CsvBuilderException(MyExceptions.Exception_Type type, String message) {
         super(message);
         this.type = type;
     }

@@ -34,7 +34,7 @@ public class IndianStatesAnalyserTest {
             int checkCensus = censusAnalyserProblem.loadIndianCensusData(WRONG_INDIAN_STATE_CENSUS_DATA_FILE);
             Assert.assertEquals(29, checkCensus);
         } catch (MyExceptions e) {
-            Assert.assertEquals(MyExceptions.Exception.FILE_NOT_FOUND, e.type);
+            Assert.assertEquals(MyExceptions.Exception_Type.FILE_NOT_FOUND, e.type);
         }
     }
 
@@ -44,7 +44,7 @@ public class IndianStatesAnalyserTest {
             int checkCensus = censusAnalyserProblem.loadIndianCensusData(WRONG_INDIAN_STATE_CENSUS_DATA_PATH);
             Assert.assertEquals(29, checkCensus);
         } catch (MyExceptions e) {
-            Assert.assertEquals(MyExceptions.Exception.PATH_NOT_FOUND, e.type);
+            Assert.assertEquals(MyExceptions.Exception_Type.PATH_NOT_FOUND, e.type);
         }
     }
 
@@ -54,7 +54,7 @@ public class IndianStatesAnalyserTest {
             int checkCensus = censusAnalyserProblem.loadIndianCensusData(WRONG_DELIMITER_STATE_CENSUS_DATA_PATH);
             Assert.assertEquals(29, checkCensus);
         } catch (MyExceptions e) {
-            Assert.assertEquals(MyExceptions.Exception.WRONG_DELIMITER_OR_HEADER, e.type);
+            Assert.assertEquals(MyExceptions.Exception_Type.WRONG_DELIMITER_OR_HEADER, e.type);
         }
     }
 
@@ -64,7 +64,7 @@ public class IndianStatesAnalyserTest {
             int checkCensus = censusAnalyserProblem.loadIndianCensusData(WRONG_HEADER_STATE_CENSUS_DATA_PATH);
             Assert.assertEquals(29, checkCensus);
         } catch (MyExceptions e) {
-            Assert.assertEquals(MyExceptions.Exception.WRONG_DELIMITER_OR_HEADER, e.type);
+            Assert.assertEquals(MyExceptions.Exception_Type.WRONG_DELIMITER_OR_HEADER, e.type);
         }
     }
 
@@ -80,7 +80,7 @@ public class IndianStatesAnalyserTest {
             int checkCode = codeAnalyserProblem.loadIndianStateCodeData(WRONG_INDIAN_STATE_CODE_DATA_FILE);
             Assert.assertEquals(37, checkCode);
         } catch (MyExceptions e) {
-            Assert.assertEquals(MyExceptions.Exception.FILE_NOT_FOUND, e.type);
+            Assert.assertEquals(MyExceptions.Exception_Type.FILE_NOT_FOUND, e.type);
         }
     }
 
@@ -90,7 +90,7 @@ public class IndianStatesAnalyserTest {
             int checkCode = codeAnalyserProblem.loadIndianStateCodeData(WRONG_INDIAN_STATE_CODE_DATA_PATH);
             Assert.assertEquals(37, checkCode);
         } catch (MyExceptions e) {
-            Assert.assertEquals(MyExceptions.Exception.PATH_NOT_FOUND, e.type);
+            Assert.assertEquals(MyExceptions.Exception_Type.PATH_NOT_FOUND, e.type);
         }
     }
 
@@ -100,7 +100,7 @@ public class IndianStatesAnalyserTest {
             int checkCode = codeAnalyserProblem.loadIndianStateCodeData(WRONG_DELIMITER_STATE_CODE_DATA_PATH);
             Assert.assertEquals(37, checkCode);
         } catch (MyExceptions e) {
-            Assert.assertEquals(MyExceptions.Exception.WRONG_DELIMITER_OR_HEADER, e.type);
+            Assert.assertEquals(MyExceptions.Exception_Type.WRONG_DELIMITER_OR_HEADER, e.type);
         }
     }
 
@@ -110,7 +110,7 @@ public class IndianStatesAnalyserTest {
             int checkCode = codeAnalyserProblem.loadIndianStateCodeData(WRONG_HEADER_STATE_CODE_DATA_PATH);
             Assert.assertEquals(37, checkCode);
         } catch (MyExceptions e) {
-            Assert.assertEquals(MyExceptions.Exception.WRONG_DELIMITER_OR_HEADER, e.type);
+            Assert.assertEquals(MyExceptions.Exception_Type.WRONG_DELIMITER_OR_HEADER, e.type);
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.bridgelabz;
 
 import com.bridgelabz.censusanalyserproject.IndianCensusData;
+import com.bridgelabz.censusanalyserproject.IndianStateCode;
 import com.bridgelabz.censusanalyserproject.IndianStatesAnalyser;
 import com.bridgelabz.exception.MyExceptions;
 import com.google.gson.Gson;
@@ -156,6 +157,28 @@ public class IndianStatesAnalyserTest {
             Assert.assertEquals("West Bengal", censusCSV[28].state);
         } catch (MyExceptions e) {
             Assert.assertEquals(MyExceptions.Exception_Type.PATH_NOT_FOUND, e.type);
+        }
+    }
+
+    @Test
+    public void givenIndianCodeData_WhenSortedStateWise_ShouldReturnFirstSortedResult() {
+        try {
+            String sortedCodeData = censusAnalyserProblem.getSortedStateCodeData(INDIAN_STATE_CODE_DATA_PATH);
+            IndianStateCode[] stateCSV = new Gson().fromJson(sortedCodeData, IndianStateCode[].class);
+            Assert.assertEquals("AN", stateCSV[0].stateCode);
+        } catch (MyExceptions e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenIndianCodeData_WhenSortedStateWise_ShouldReturnLastSortedResult() {
+        try {
+            String sortedCodeData = censusAnalyserProblem.getSortedStateCodeData(INDIAN_STATE_CODE_DATA_PATH);
+            IndianStateCode[] stateCSV = new Gson().fromJson(sortedCodeData, IndianStateCode[].class);
+            Assert.assertEquals("WB", stateCSV[36].stateCode);
+        } catch (MyExceptions e) {
+            e.printStackTrace();
         }
     }
 }

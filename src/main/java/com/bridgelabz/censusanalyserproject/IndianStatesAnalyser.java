@@ -21,6 +21,7 @@ public class IndianStatesAnalyser {
 
     //FOR LIST
     List<IndianCensusData> csvFileList = null;
+    List<IndianStateCode> csvStateCodeList = null;
 
     //METHOD FOR STATE CENSUS
     public int loadIndianCensusData(String csvFilePath) throws MyExceptions {
@@ -50,8 +51,8 @@ public class IndianStatesAnalyser {
             throw new MyExceptions(MyExceptions.Exception_Type.PATH_NOT_FOUND, "No such a path");
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
             IcsvBuilder csvBuilder = CsvBuilderFactory.createCsvBuilder();
-            List<IndianStateCode> csvFileList = csvBuilder.getCSVFileList(reader, IndianStateCode.class);
-            return csvFileList.size();
+            csvStateCodeList = csvBuilder.getCSVFileList(reader, IndianStateCode.class);
+            return csvStateCodeList.size();
         } catch (CsvBuilderException e) {
             e.printStackTrace();
         } catch (RuntimeException e) {
@@ -84,7 +85,7 @@ public class IndianStatesAnalyser {
         return recordCount;
     }
 
-    //METHOD FOR COMPARATOR
+    //METHOD FOR STATE CENSUS COMPARATOR
     public String getSortedCensusStateData(String csvFilePath) throws MyExceptions {
         loadIndianCensusData(csvFilePath);
         if (csvFileList == null || csvFileList.size() == 0) {
@@ -92,6 +93,17 @@ public class IndianStatesAnalyser {
         }
         csvFileList.sort(Comparator.comparing(e -> e.getState()));
         String toJson = new Gson().toJson(csvFileList);
+        return toJson;
+    }
+
+    //METHOD FOR STATE CODE COMPARATOR
+    public String getSortedStateCodeData(String csvFilePath) throws MyExceptions {
+        loadIndianStateCodeData(csvFilePath);
+        if (csvStateCodeList == null || csvStateCodeList.size() == 0) {
+            throw new MyExceptions(MyExceptions.Exception_Type.NO_SUCH_CENSUS_DATA, "Census Data not found");
+        }
+        csvStateCodeList.sort(Comparator.comparing(e -> e.getState()));
+        String toJson = new Gson().toJson(csvStateCodeList);
         return toJson;
     }
 

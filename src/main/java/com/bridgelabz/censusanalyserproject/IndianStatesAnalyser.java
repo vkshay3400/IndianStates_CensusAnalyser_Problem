@@ -87,26 +87,28 @@ public class IndianStatesAnalyser {
 
     //METHOD FOR STATE CENSUS COMPARATOR
     public String getSortedCensusStateData(String csvFilePath) throws MyExceptions {
-        if (csvFileList == null || csvFileList.size() == 0) {
+        loadIndianCensusData(csvFilePath);
+        if (csvFileList == null || csvFileList.size() == 0)
             throw new MyExceptions(MyExceptions.Exception_Type.NO_SUCH_CENSUS_DATA, "Census Data not found");
-        }
-        csvFileList.sort(Comparator.comparing(e -> e.getState()));
-        String toJson = new Gson().toJson(csvFileList);
-        return toJson;
+        Comparator<IndianCensusData> stateCodeComparator = Comparator.comparing(stateCensus -> stateCensus.getState());
+        this.sort(stateCodeComparator, csvFileList);
+        String sortToJson = new Gson().toJson(csvFileList);
+        return sortToJson;
     }
 
     //METHOD FOR STATE CODE COMPARATOR
     public String getSortedStateCodeData(String csvFilePath) throws MyExceptions {
-        if (csvStateCodeList == null || csvStateCodeList.size() == 0) {
+        loadIndianStateCodeData(csvFilePath);
+        if (csvStateCodeList == null || csvStateCodeList.size() == 0)
             throw new MyExceptions(MyExceptions.Exception_Type.NO_SUCH_CENSUS_DATA, "Code Data not found");
-        }
-        csvStateCodeList.sort(Comparator.comparing(e -> e.getState()));
-        String toJson = new Gson().toJson(csvStateCodeList);
-        return toJson;
+        Comparator<IndianStateCode> stateCodeComparator = Comparator.comparing(stateCode -> stateCode.getStateCode());
+        this.sort(stateCodeComparator, csvStateCodeList);
+        String sortToJson = new Gson().toJson(csvStateCodeList);
+        return sortToJson;
     }
 
     //METHOD TO SORT
-     private<T> void sort(Comparator<T> censusComparator, List<T> csvFileList){
+    private <T> void sort(Comparator<T> censusComparator, List<T> csvFileList) {
         for (int index1 = 0; index1 < csvFileList.size(); index1++) {
             for (int index2 = 0; index2 < csvFileList.size() - index1 - 1; index2++) {
                 T census1 = csvFileList.get(index2);

@@ -8,8 +8,6 @@ import com.google.gson.Gson;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.io.IOException;
-
 public class IndianStatesAnalyserTest {
     private static final String INDIAN_STATE_CENSUS_DATA_PATH = "./src/test/resources/StateCensusData.csv";
     private static final String WRONG_INDIAN_STATE_CENSUS_DATA_FILE = "./src/test/resources/StateCensus.csv";
@@ -25,13 +23,13 @@ public class IndianStatesAnalyserTest {
     IndianStatesAnalyser censusAnalyserProblem = new IndianStatesAnalyser();
 
     @Test
-    public void givenCensusAnalyserCensus_WhenImproper_ShouldThrowException() throws MyExceptions, IOException {
+    public void givenCensusAnalyserCensus_WhenImproper_ShouldThrowException() throws MyExceptions {
         int checkCensus = censusAnalyserProblem.loadIndianCensusData(INDIAN_STATE_CENSUS_DATA_PATH);
         Assert.assertEquals(29, checkCensus);
     }
 
     @Test
-    public void givenCensusAnalyserFile_WhenIncorrect_ShouldReturnException() throws MyExceptions, IOException {
+    public void givenCensusAnalyserFile_WhenIncorrect_ShouldReturnException() throws MyExceptions {
         try {
             int checkCensus = censusAnalyserProblem.loadIndianCensusData(WRONG_INDIAN_STATE_CENSUS_DATA_FILE);
             Assert.assertEquals(29, checkCensus);
@@ -41,7 +39,7 @@ public class IndianStatesAnalyserTest {
     }
 
     @Test
-    public void givenCensusAnalyser_WhenIncorrectPath_ShouldReturnException() throws MyExceptions, IOException {
+    public void givenCensusAnalyser_WhenIncorrectPath_ShouldReturnException() throws MyExceptions {
         try {
             int checkCensus = censusAnalyserProblem.loadIndianCensusData(WRONG_INDIAN_STATE_CENSUS_DATA_PATH);
             Assert.assertEquals(29, checkCensus);
@@ -51,7 +49,7 @@ public class IndianStatesAnalyserTest {
     }
 
     @Test
-    public void givenCensusAnalyser_WhenDelimiterIncorrect_ShouldReturnException() throws MyExceptions, IOException {
+    public void givenCensusAnalyser_WhenDelimiterIncorrect_ShouldReturnException() throws MyExceptions {
         try {
             int checkCensus = censusAnalyserProblem.loadIndianCensusData(WRONG_DELIMITER_STATE_CENSUS_DATA_PATH);
             Assert.assertEquals(29, checkCensus);
@@ -61,7 +59,7 @@ public class IndianStatesAnalyserTest {
     }
 
     @Test
-    public void givenCensusAnalyser_WhenHeaderIncorrect_ShouldReturnException() throws MyExceptions, IOException {
+    public void givenCensusAnalyser_WhenHeaderIncorrect_ShouldReturnException() throws MyExceptions {
         try {
             int checkCensus = censusAnalyserProblem.loadIndianCensusData(WRONG_HEADER_STATE_CENSUS_DATA_PATH);
             Assert.assertEquals(29, checkCensus);
@@ -87,7 +85,7 @@ public class IndianStatesAnalyserTest {
     }
 
     @Test
-    public void givenCensusAnalyserStateCode_WhenIncorrectPath_ShouldThrowException() throws MyExceptions, IOException {
+    public void givenCensusAnalyserStateCode_WhenIncorrectPath_ShouldThrowException() throws MyExceptions {
         try {
             int checkCode = censusAnalyserProblem.loadIndianStateCodeData(WRONG_INDIAN_STATE_CODE_DATA_PATH);
             Assert.assertEquals(37, checkCode);
@@ -97,7 +95,7 @@ public class IndianStatesAnalyserTest {
     }
 
     @Test
-    public void givenCensusAnalyserStateCode_WhenDelimiterIncorrect_ShouldReturnException() throws MyExceptions, IOException {
+    public void givenCensusAnalyserStateCode_WhenDelimiterIncorrect_ShouldReturnException() throws MyExceptions {
         try {
             int checkCode = censusAnalyserProblem.loadIndianStateCodeData(WRONG_DELIMITER_STATE_CODE_DATA_PATH);
             Assert.assertEquals(37, checkCode);
@@ -107,7 +105,7 @@ public class IndianStatesAnalyserTest {
     }
 
     @Test
-    public void givenCensusAnalyserStateCode_WhenHeaderIncorrect_ShouldReturnException() throws MyExceptions, IOException {
+    public void givenCensusAnalyserStateCode_WhenHeaderIncorrect_ShouldReturnException() throws MyExceptions {
         try {
             int checkCode = censusAnalyserProblem.loadIndianStateCodeData(WRONG_HEADER_STATE_CODE_DATA_PATH);
             Assert.assertEquals(37, checkCode);
@@ -143,8 +141,7 @@ public class IndianStatesAnalyserTest {
         try {
             String sortedCodeData = censusAnalyserProblem.getSortedStateCodeData(INDIAN_STATE_CODE_DATA_PATH);
             IndianStateCode[] stateCSV = new Gson().fromJson(sortedCodeData, IndianStateCode[].class);
-            System.out.println(sortedCodeData);
-            Assert.assertEquals("AN", stateCSV[0].stateCode);
+            Assert.assertEquals("AD", stateCSV[0].stateCode);
         } catch (MyExceptions e) {
             e.printStackTrace();
         }
@@ -155,7 +152,6 @@ public class IndianStatesAnalyserTest {
         try {
             String sortedCodeData = censusAnalyserProblem.getSortedStateCodeData(INDIAN_STATE_CODE_DATA_PATH);
             IndianStateCode[] stateCSV = new Gson().fromJson(sortedCodeData, IndianStateCode[].class);
-            System.out.println(sortedCodeData);
             Assert.assertEquals("WB", stateCSV[36].stateCode);
         } catch (MyExceptions e) {
             e.printStackTrace();

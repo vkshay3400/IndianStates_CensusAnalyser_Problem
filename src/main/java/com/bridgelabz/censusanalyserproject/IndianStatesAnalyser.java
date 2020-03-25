@@ -87,7 +87,6 @@ public class IndianStatesAnalyser {
 
     //METHOD FOR STATE CENSUS COMPARATOR
     public String getSortedCensusStateData(String csvFilePath) throws MyExceptions {
-        loadIndianCensusData(csvFilePath);
         if (csvFileList == null || csvFileList.size() == 0) {
             throw new MyExceptions(MyExceptions.Exception_Type.NO_SUCH_CENSUS_DATA, "Census Data not found");
         }
@@ -98,9 +97,8 @@ public class IndianStatesAnalyser {
 
     //METHOD FOR STATE CODE COMPARATOR
     public String getSortedStateCodeData(String csvFilePath) throws MyExceptions {
-        loadIndianStateCodeData(csvFilePath);
         if (csvStateCodeList == null || csvStateCodeList.size() == 0) {
-            throw new MyExceptions(MyExceptions.Exception_Type.NO_SUCH_CENSUS_DATA, "Census Data not found");
+            throw new MyExceptions(MyExceptions.Exception_Type.NO_SUCH_CENSUS_DATA, "Code Data not found");
         }
         csvStateCodeList.sort(Comparator.comparing(e -> e.getState()));
         String toJson = new Gson().toJson(csvStateCodeList);
@@ -108,11 +106,11 @@ public class IndianStatesAnalyser {
     }
 
     //METHOD TO SORT
-    private void sort(List<IndianCensusData> csvFileList, Comparator<IndianCensusData> censusComparator) {
+     private<T> void sort(Comparator<T> censusComparator, List<T> csvFileList){
         for (int index1 = 0; index1 < csvFileList.size(); index1++) {
             for (int index2 = 0; index2 < csvFileList.size() - index1 - 1; index2++) {
-                IndianCensusData census1 = csvFileList.get(index2);
-                IndianCensusData census2 = csvFileList.get(index2 + 1);
+                T census1 = csvFileList.get(index2);
+                T census2 = csvFileList.get(index2 + 1);
                 if (censusComparator.compare(census1, census2) > 0) {
                     csvFileList.set(index2, census2);
                     csvFileList.set(index2 + 1, census1);

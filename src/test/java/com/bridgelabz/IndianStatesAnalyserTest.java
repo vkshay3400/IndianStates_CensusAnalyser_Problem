@@ -139,32 +139,11 @@ public class IndianStatesAnalyserTest {
     }
 
     @Test
-    public void givenIndianCensusData_WhenIncorrectFile_ShouldThrowException() {
-        try {
-            String sortedCensusData = censusAnalyserProblem.getSortedCensusStateData(WRONG_INDIAN_STATE_CENSUS_DATA_FILE);
-            IndianCensusData[] censusCSV = new Gson().fromJson(sortedCensusData, IndianCensusData[].class);
-            Assert.assertEquals("Andhra Pradesh", censusCSV[2].state);
-        } catch (MyExceptions e) {
-            Assert.assertEquals(MyExceptions.Exception_Type.FILE_NOT_FOUND, e.type);
-        }
-    }
-
-    @Test
-    public void givenIndianCensusData_WhenIncorrectPath_ShouldThrowException() {
-        try {
-            String sortedCensusData = censusAnalyserProblem.getSortedCensusStateData(WRONG_INDIAN_STATE_CENSUS_DATA_PATH);
-            IndianCensusData[] censusCSV = new Gson().fromJson(sortedCensusData, IndianCensusData[].class);
-            Assert.assertEquals("West Bengal", censusCSV[28].state);
-        } catch (MyExceptions e) {
-            Assert.assertEquals(MyExceptions.Exception_Type.PATH_NOT_FOUND, e.type);
-        }
-    }
-
-    @Test
     public void givenIndianCodeData_WhenSortedStateWise_ShouldReturnFirstSortedResult() {
         try {
             String sortedCodeData = censusAnalyserProblem.getSortedStateCodeData(INDIAN_STATE_CODE_DATA_PATH);
             IndianStateCode[] stateCSV = new Gson().fromJson(sortedCodeData, IndianStateCode[].class);
+            System.out.println(sortedCodeData);
             Assert.assertEquals("AN", stateCSV[0].stateCode);
         } catch (MyExceptions e) {
             e.printStackTrace();
@@ -176,6 +155,7 @@ public class IndianStatesAnalyserTest {
         try {
             String sortedCodeData = censusAnalyserProblem.getSortedStateCodeData(INDIAN_STATE_CODE_DATA_PATH);
             IndianStateCode[] stateCSV = new Gson().fromJson(sortedCodeData, IndianStateCode[].class);
+            System.out.println(sortedCodeData);
             Assert.assertEquals("WB", stateCSV[36].stateCode);
         } catch (MyExceptions e) {
             e.printStackTrace();

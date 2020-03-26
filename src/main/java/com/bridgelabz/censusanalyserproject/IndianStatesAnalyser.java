@@ -18,14 +18,14 @@ public class IndianStatesAnalyser {
     //FOR CSV FILE
     private static final String PATTERN_FOR_CSV_FILE = "^[a-zA-Z0-9./_@]*[.]+[c][s][v]$";
 
-    //FOR LIST
+    //LIST AND MAP
     List<IndianCensusData> csvFileList = null;
     List<IndianStateCode> csvStateCodeList = null;
     Map<String, IndianCensusData> csvStateCensusMap = null;
     Map<String, IndianStateCode> csvStateCodeMap = null;
 
-    //USING MAP
-    public void IndianStatesAnalyser() {
+    //CONSTRUCTOR
+    public IndianStatesAnalyser() {
         this.csvStateCensusMap = new HashMap<>();
         this.csvStateCodeMap = new HashMap<>();
     }
@@ -104,7 +104,6 @@ public class IndianStatesAnalyser {
 
     //METHOD FOR STATE CENSUS COMPARATOR
     public String getSortedCensusStateData(String csvFilePath) throws MyExceptions {
-        loadIndianCensusData(csvFilePath);
         if (csvFileList == null || csvFileList.size() == 0)
             throw new MyExceptions(MyExceptions.Exception_Type.NO_SUCH_CENSUS_DATA, "Census Data not found");
         Comparator<IndianCensusData> stateCodeComparator = Comparator.comparing(stateCensus -> stateCensus.getState());
@@ -115,7 +114,6 @@ public class IndianStatesAnalyser {
 
     //METHOD FOR STATE CODE COMPARATOR
     public String getSortedStateCodeData(String csvFilePath) throws MyExceptions {
-        loadIndianStateCodeData(csvFilePath);
         if (csvStateCodeList == null || csvStateCodeList.size() == 0)
             throw new MyExceptions(MyExceptions.Exception_Type.NO_SUCH_CENSUS_DATA, "Code Data not found");
         Comparator<IndianStateCode> stateCodeComparator = Comparator.comparing(stateCode -> stateCode.getStateCode());

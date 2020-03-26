@@ -9,10 +9,9 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 public class IndianStatesAnalyser {
@@ -22,6 +21,14 @@ public class IndianStatesAnalyser {
     //FOR LIST
     List<IndianCensusData> csvFileList = null;
     List<IndianStateCode> csvStateCodeList = null;
+    Map<String, IndianCensusData> csvStateCensusMap = null;
+    Map<String, IndianStateCode> csvStateCodeMap = null;
+
+    //USING MAP
+    public void IndianStatesAnalyser() {
+        this.csvStateCensusMap = new HashMap<>();
+        this.csvStateCodeMap = new HashMap<>();
+    }
 
     //METHOD FOR STATE CENSUS
     public int loadIndianCensusData(String csvFilePath) throws MyExceptions {
@@ -30,15 +37,20 @@ public class IndianStatesAnalyser {
             throw new MyExceptions(MyExceptions.Exception_Type.PATH_NOT_FOUND, "No such a path");
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
             IcsvBuilder csvBuilder = CsvBuilderFactory.createCsvBuilder();
-            csvFileList = csvBuilder.getCSVFileList(reader, IndianCensusData.class);
-            return csvFileList.size();
-        } catch (CsvBuilderException e) {
-            e.printStackTrace();
+            Iterator<IndianCensusData> stateCensusIterator = csvBuilder.getCSVFileIterator(reader, IndianCensusData.class);
+            while (stateCensusIterator.hasNext()) {
+                IndianCensusData stateCensus = stateCensusIterator.next();
+                this.csvStateCensusMap.put(stateCensus.getState(), stateCensus);
+                csvFileList = csvStateCensusMap.values().stream().collect(Collectors.toList());
+            }
+            return csvStateCensusMap.size();
         } catch (RuntimeException e) {
             throw new MyExceptions(MyExceptions.Exception_Type.WRONG_DELIMITER_OR_HEADER, "Delimiter or header not found");
         } catch (NoSuchFileException e) {
             throw new MyExceptions(MyExceptions.Exception_Type.FILE_NOT_FOUND, "File not found");
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (CsvBuilderException e) {
             e.printStackTrace();
         }
         return 0;
@@ -51,15 +63,20 @@ public class IndianStatesAnalyser {
             throw new MyExceptions(MyExceptions.Exception_Type.PATH_NOT_FOUND, "No such a path");
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
             IcsvBuilder csvBuilder = CsvBuilderFactory.createCsvBuilder();
-            csvStateCodeList = csvBuilder.getCSVFileList(reader, IndianStateCode.class);
-            return csvStateCodeList.size();
-        } catch (CsvBuilderException e) {
-            e.printStackTrace();
+            Iterator<IndianStateCode> stateCensusIterator = csvBuilder.getCSVFileIterator(reader, IndianStateCode.class);
+            while (stateCensusIterator.hasNext()) {
+                IndianStateCode stateCode = stateCensusIterator.next();
+                this.csvStateCodeMap.put(stateCode.getStateCode(), stateCode);
+                csvStateCodeList = csvStateCodeMap.values().stream().collect(Collectors.toList());
+            }
+            return csvStateCodeMap.size();
         } catch (RuntimeException e) {
             throw new MyExceptions(MyExceptions.Exception_Type.WRONG_DELIMITER_OR_HEADER, "No such delimiter and header");
         } catch (NoSuchFileException e) {
             throw new MyExceptions(MyExceptions.Exception_Type.FILE_NOT_FOUND, "File not found");
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (CsvBuilderException e) {
             e.printStackTrace();
         }
         return 0;

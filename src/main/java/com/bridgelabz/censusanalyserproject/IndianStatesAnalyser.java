@@ -160,6 +160,18 @@ public class IndianStatesAnalyser {
         return sortedPopulationDensityJson;
     }
 
+    //METHOD TO SORT STATE CENSUS DATA BY AREA
+    public String getAreaWiseSortedCensusData() throws MyExceptions {
+        if (censusList == null || censusList.size() == 0) {
+            throw new MyExceptions(MyExceptions.Exception_Type.NO_SUCH_CENSUS_DATA, "No census data");
+        }
+        Comparator<CensusDAO> censusComparator = Comparator.comparing(censusDAO -> censusDAO.area);
+        this.sort(censusComparator);
+        Collections.reverse(censusList);
+        String sortedAreaJson = new Gson().toJson(censusList);
+        return sortedAreaJson;
+    }
+
     //MAIN METHOD
     public static void main(String[] args) {
         System.out.println("Welcome to Indian Census");

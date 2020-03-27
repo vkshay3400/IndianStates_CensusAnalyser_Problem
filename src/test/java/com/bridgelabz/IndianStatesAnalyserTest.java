@@ -172,7 +172,7 @@ public class IndianStatesAnalyserTest {
     }
 
     @Test
-    public void givenTheStateCensusData_WhenSortedOnPopulation_ShouldReturnSortedResult() {
+    public void givenStateCensusData_WhenSortedOnPopulation_ShouldReturnSortedResult() {
         try {
             censusAnalyserProblem.loadIndianCensusData(INDIAN_STATE_CENSUS_DATA_PATH);
             String sortedCensusData = censusAnalyserProblem.getPopulationStateWiseSortedCensusData();
@@ -184,12 +184,24 @@ public class IndianStatesAnalyserTest {
     }
 
     @Test
-    public void givenTheStateCensusData_WhenSortedOnPopulationDensity_ShouldReturnSortedResult() {
+    public void givenStateCensusData_WhenSortedOnPopulationDensity_ShouldReturnSortedResult() {
         try {
             censusAnalyserProblem.loadIndianCensusData(INDIAN_STATE_CENSUS_DATA_PATH);
             String sortedCensusData = censusAnalyserProblem.getPopulationDensityWiseSortedCensusData();
             CensusDAO[] stateCSV = new Gson().fromJson(sortedCensusData, CensusDAO[].class);
             Assert.assertEquals(1102, stateCSV[0].density);
+        } catch (MyExceptions e) {
+            e.getStackTrace();
+        }
+    }
+
+    @Test
+    public void givenStateCensusData_WhenSortedOnAreaWise_ShouldReturnSortedResult() {
+        try {
+            censusAnalyserProblem.loadIndianCensusData(INDIAN_STATE_CENSUS_DATA_PATH);
+            String sortedCensusData = censusAnalyserProblem.getAreaWiseSortedCensusData();
+            CensusDAO[] stateCSV = new Gson().fromJson(sortedCensusData, CensusDAO[].class);
+            Assert.assertEquals(342239, stateCSV[0].area);
         } catch (MyExceptions e) {
             e.getStackTrace();
         }

@@ -125,7 +125,8 @@ public class IndianStatesAnalyserTest {
     @Test
     public void givenIndianCensusData_WhenSortedStateWise_ShouldReturnFirstSortedResult() {
         try {
-            String sortedCensusData = censusAnalyserProblem.getSortedCensusStateData(INDIAN_STATE_CENSUS_DATA_PATH);
+            censusAnalyserProblem.loadIndianCensusData(INDIAN_STATE_CENSUS_DATA_PATH);
+            String sortedCensusData = censusAnalyserProblem.getSortedCensusStateData();
             IndianCensusData[] censusCSV = new Gson().fromJson(sortedCensusData, IndianCensusData[].class);
             Assert.assertEquals("Andhra Pradesh", censusCSV[0].getState());
         } catch (MyExceptions e) {
@@ -136,7 +137,8 @@ public class IndianStatesAnalyserTest {
     @Test
     public void givenIndianCensusData_WhenSortedStateWise_ShouldReturnLastSortedResult() {
         try {
-            String sortedCensusData = censusAnalyserProblem.getSortedCensusStateData(INDIAN_STATE_CENSUS_DATA_PATH);
+            censusAnalyserProblem.loadIndianCensusData(INDIAN_STATE_CENSUS_DATA_PATH);
+            String sortedCensusData = censusAnalyserProblem.getSortedCensusStateData();
             IndianCensusData[] censusCSV = new Gson().fromJson(sortedCensusData, IndianCensusData[].class);
             Assert.assertEquals("West Bengal", censusCSV[28].getState());
         } catch (MyExceptions e) {
@@ -147,7 +149,8 @@ public class IndianStatesAnalyserTest {
     @Test
     public void givenIndianCodeData_WhenSortedStateWise_ShouldReturnFirstSortedResult() {
         try {
-            String sortedCodeData = censusAnalyserProblem.getSortedStateCodeData(INDIAN_STATE_CODE_DATA_PATH);
+            censusAnalyserProblem.loadIndianCensusData(INDIAN_STATE_CODE_DATA_PATH);
+            String sortedCodeData = censusAnalyserProblem.getSortedCensusStateData();
             IndianStateCode[] stateCSV = new Gson().fromJson(sortedCodeData, IndianStateCode[].class);
             Assert.assertEquals("AD", stateCSV[0].getStateCode());
         } catch (MyExceptions e) {
@@ -158,11 +161,24 @@ public class IndianStatesAnalyserTest {
     @Test
     public void givenIndianCodeData_WhenSortedStateWise_ShouldReturnLastSortedResult() {
         try {
-            String sortedCodeData = censusAnalyserProblem.getSortedStateCodeData(INDIAN_STATE_CODE_DATA_PATH);
+            censusAnalyserProblem.loadIndianCensusData(INDIAN_STATE_CODE_DATA_PATH);
+            String sortedCodeData = censusAnalyserProblem.getSortedCensusStateData();
             IndianStateCode[] stateCSV = new Gson().fromJson(sortedCodeData, IndianStateCode[].class);
             Assert.assertEquals("WB", stateCSV[36].getStateCode());
         } catch (MyExceptions e) {
             e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenTheStateCensusData_WhenSortedOnPopulation_ShouldReturnSortedResult() {
+        try {
+            censusAnalyserProblem.loadIndianStateCodeData(INDIAN_STATE_CENSUS_DATA_PATH);
+            String sortedCensusData = censusAnalyserProblem.getPopulationWiseSortedCensusData();
+            IndianCensusData[] stateCSV = new Gson().fromJson(sortedCensusData, IndianCensusData[].class);
+            Assert.assertEquals(199812341, stateCSV[0].getPopulation());
+        } catch (MyExceptions e) {
+            e.getStackTrace();
         }
     }
 }

@@ -18,12 +18,12 @@ public class IndianStatesAnalyser {
     //FOR CSV FILE
     private static final String PATTERN_FOR_CSV_FILE = "^[a-zA-Z0-9./_@]*[.]+[c][s][v]$";
 
-    //FOR LIST
+    //LIST, MAP
     List<CensusDAO> censusList = null;
     Map<String, CensusDAO> censusMap = null;
 
     //CONSTRUCTOR
-    public void IndianStatesAnalyser() {
+    public IndianStatesAnalyser() {
         this.censusList = new ArrayList<>();
         this.censusMap = new HashMap<>();
     }
@@ -101,7 +101,7 @@ public class IndianStatesAnalyser {
     }
 
     //METHOD FOR STATE CENSUS COMPARATOR
-    public String getSortedCensusStateData(String csvFilePath) throws MyExceptions {
+    public String getSortedCensusStateData() throws MyExceptions {
         if (censusList == null || censusList.size() == 0) {
             throw new MyExceptions(MyExceptions.Exception_Type.NO_SUCH_CENSUS_DATA, "Code Data not found");
         }
@@ -134,6 +134,18 @@ public class IndianStatesAnalyser {
                 }
             }
         }
+    }
+
+    //METHOD TO SORT STATE CENSUS DATA BY POPULATION
+    public String getPopulationWiseSortedCensusData() throws MyExceptions {
+        if (censusList == null || censusList.size() == 0) {
+            throw new MyExceptions(MyExceptions.Exception_Type.NO_SUCH_CENSUS_DATA, "No census data");
+        }
+        Comparator<CensusDAO> censusComparator = Comparator.comparing(censusDAO -> censusDAO.population);
+        this.sort(censusComparator);
+        Collections.reverse(censusList);
+        String sortedStatePopulationJson = new Gson().toJson(censusList);
+        return sortedStatePopulationJson;
     }
 
     //MAIN METHOD

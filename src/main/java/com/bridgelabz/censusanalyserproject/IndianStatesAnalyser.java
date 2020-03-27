@@ -118,8 +118,8 @@ public class IndianStatesAnalyser {
         }
         Comparator<CensusDAO> censusComparator = Comparator.comparing(censusDTO -> censusDTO.state);
         this.sort(censusComparator);
-        String sortedStateCensusJson = new Gson().toJson(censusList);
-        return sortedStateCensusJson;
+        String sortedStateCodeJson = new Gson().toJson(censusList);
+        return sortedStateCodeJson;
     }
 
     //METHOD TO SORT
@@ -137,7 +137,7 @@ public class IndianStatesAnalyser {
     }
 
     //METHOD TO SORT STATE CENSUS DATA BY POPULATION
-    public String getPopulationWiseSortedCensusData() throws MyExceptions {
+    public String getPopulationStateWiseSortedCensusData() throws MyExceptions {
         if (censusList == null || censusList.size() == 0) {
             throw new MyExceptions(MyExceptions.Exception_Type.NO_SUCH_CENSUS_DATA, "No census data");
         }
@@ -146,6 +146,18 @@ public class IndianStatesAnalyser {
         Collections.reverse(censusList);
         String sortedStatePopulationJson = new Gson().toJson(censusList);
         return sortedStatePopulationJson;
+    }
+
+    //METHOD TO SORT STATE CENSUS DATA BY POPULATION DENSITY
+    public String getPopulationDensityWiseSortedCensusData() throws MyExceptions {
+        if (censusList == null || censusList.size() == 0) {
+            throw new MyExceptions(MyExceptions.Exception_Type.NO_SUCH_CENSUS_DATA, "No census data");
+        }
+        Comparator<CensusDAO> censusComparator = Comparator.comparing(censusDAO -> censusDAO.density);
+        this.sort(censusComparator);
+        Collections.reverse(censusList);
+        String sortedPopulationDensityJson = new Gson().toJson(censusList);
+        return sortedPopulationDensityJson;
     }
 
     //MAIN METHOD

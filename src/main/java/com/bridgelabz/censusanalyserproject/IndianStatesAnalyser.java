@@ -18,16 +18,14 @@ public class IndianStatesAnalyser {
     //FOR CSV FILE
     private static final String PATTERN_FOR_CSV_FILE = "^[a-zA-Z0-9./_@]*[.]+[c][s][v]$";
 
-    //LIST AND MAP
-    List<IndianCensusData> csvFileList = null;
-    List<IndianStateCode> csvStateCodeList = null;
-    Map<String, IndianCensusData> csvStateCensusMap = null;
-    Map<String, IndianStateCode> csvStateCodeMap = null;
+    //FOR LIST
+    List<CensusDAO> censusList = null;
+    Map<String, CensusDAO> censusMap = null;
 
     //CONSTRUCTOR
-    public IndianStatesAnalyser() {
-        this.csvStateCensusMap = new HashMap<>();
-        this.csvStateCodeMap = new HashMap<>();
+    public void IndianStatesAnalyser() {
+        this.censusList = new ArrayList<>();
+        this.censusMap = new HashMap<>();
     }
 
     //METHOD FOR STATE CENSUS
@@ -39,11 +37,11 @@ public class IndianStatesAnalyser {
             IcsvBuilder csvBuilder = CsvBuilderFactory.createCsvBuilder();
             Iterator<IndianCensusData> stateCensusIterator = csvBuilder.getCSVFileIterator(reader, IndianCensusData.class);
             while (stateCensusIterator.hasNext()) {
-                IndianCensusData stateCensus = stateCensusIterator.next();
-                this.csvStateCensusMap.put(stateCensus.getState(), stateCensus);
-                csvFileList = csvStateCensusMap.values().stream().collect(Collectors.toList());
+                CensusDAO censusDTO = new CensusDAO(stateCensusIterator.next());
+                this.censusMap.put(censusDTO.state, censusDTO);
+                censusList = censusMap.values().stream().collect(Collectors.toList());
             }
-            return csvStateCensusMap.size();
+            return censusMap.size();
         } catch (RuntimeException e) {
             throw new MyExceptions(MyExceptions.Exception_Type.WRONG_DELIMITER_OR_HEADER, "Delimiter or header not found");
         } catch (NoSuchFileException e) {
@@ -65,11 +63,11 @@ public class IndianStatesAnalyser {
             IcsvBuilder csvBuilder = CsvBuilderFactory.createCsvBuilder();
             Iterator<IndianStateCode> stateCensusIterator = csvBuilder.getCSVFileIterator(reader, IndianStateCode.class);
             while (stateCensusIterator.hasNext()) {
-                IndianStateCode stateCode = stateCensusIterator.next();
-                this.csvStateCodeMap.put(stateCode.getStateCode(), stateCode);
-                csvStateCodeList = csvStateCodeMap.values().stream().collect(Collectors.toList());
+                CensusDAO censusDAO = new CensusDAO(stateCensusIterator.next());
+                this.censusMap.put(censusDAO.stateCode, censusDAO);
+                censusList = censusMap.values().stream().collect(Collectors.toList());
             }
-            return csvStateCodeMap.size();
+            return censusMap.size();
         } catch (RuntimeException e) {
             throw new MyExceptions(MyExceptions.Exception_Type.WRONG_DELIMITER_OR_HEADER, "No such delimiter and header");
         } catch (NoSuchFileException e) {
@@ -104,33 +102,35 @@ public class IndianStatesAnalyser {
 
     //METHOD FOR STATE CENSUS COMPARATOR
     public String getSortedCensusStateData(String csvFilePath) throws MyExceptions {
-        if (csvFileList == null || csvFileList.size() == 0)
-            throw new MyExceptions(MyExceptions.Exception_Type.NO_SUCH_CENSUS_DATA, "Census Data not found");
-        Comparator<IndianCensusData> stateCodeComparator = Comparator.comparing(stateCensus -> stateCensus.getState());
-        this.sort(stateCodeComparator, csvFileList);
-        String sortToJson = new Gson().toJson(csvFileList);
-        return sortToJson;
+        if (censusList == null || censusList.size() == 0) {
+            throw new MyExceptions(MyExceptions.Exception_Type.NO_SUCH_CENSUS_DATA, "Code Data not found");
+        }
+        Comparator<CensusDAO> censusComparator = Comparator.comparing(censusDTO -> censusDTO.state);
+        this.sort(censusComparator);
+        String sortedStateCensusJson = new Gson().toJson(censusList);
+        return sortedStateCensusJson;
     }
 
     //METHOD FOR STATE CODE COMPARATOR
     public String getSortedStateCodeData(String csvFilePath) throws MyExceptions {
-        if (csvStateCodeList == null || csvStateCodeList.size() == 0)
+        if (censusList == null || censusList.size() == 0) {
             throw new MyExceptions(MyExceptions.Exception_Type.NO_SUCH_CENSUS_DATA, "Code Data not found");
-        Comparator<IndianStateCode> stateCodeComparator = Comparator.comparing(stateCode -> stateCode.getStateCode());
-        this.sort(stateCodeComparator, csvStateCodeList);
-        String sortToJson = new Gson().toJson(csvStateCodeList);
-        return sortToJson;
+        }
+        Comparator<CensusDAO> censusComparator = Comparator.comparing(censusDTO -> censusDTO.state);
+        this.sort(censusComparator);
+        String sortedStateCensusJson = new Gson().toJson(censusList);
+        return sortedStateCensusJson;
     }
 
     //METHOD TO SORT
-    private <T> void sort(Comparator<T> censusComparator, List<T> csvFileList) {
-        for (int index1 = 0; index1 < csvFileList.size(); index1++) {
-            for (int index2 = 0; index2 < csvFileList.size() - index1 - 1; index2++) {
-                T census1 = csvFileList.get(index2);
-                T census2 = csvFileList.get(index2 + 1);
+    private void sort(Comparator<CensusDAO> censusComparator) {
+        for (int index1 = 0; index1 < censusList.size(); index1++) {
+            for (int index2 = 0; index2 < censusList.size() - index1 - 1; index2++) {
+                CensusDAO census1 = censusList.get(index2);
+                CensusDAO census2 = censusList.get(index2 + 1);
                 if (censusComparator.compare(census1, census2) > 0) {
-                    csvFileList.set(index2, census2);
-                    csvFileList.set(index2 + 1, census1);
+                    censusList.set(index2, census2);
+                    censusList.set(index2 + 1, census1);
                 }
             }
         }

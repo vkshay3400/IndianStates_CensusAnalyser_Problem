@@ -1,5 +1,6 @@
 package com.bridgelabz;
 
+import com.bridgelabz.censusanalyserproject.CensusDAO;
 import com.bridgelabz.censusanalyserproject.IndianCensusData;
 import com.bridgelabz.censusanalyserproject.IndianStateCode;
 import com.bridgelabz.censusanalyserproject.IndianStatesAnalyser;
@@ -149,7 +150,7 @@ public class IndianStatesAnalyserTest {
     @Test
     public void givenIndianCodeData_WhenSortedStateWise_ShouldReturnFirstSortedResult() {
         try {
-            censusAnalyserProblem.loadIndianCensusData(INDIAN_STATE_CODE_DATA_PATH);
+            censusAnalyserProblem.loadIndianStateCodeData(INDIAN_STATE_CODE_DATA_PATH);
             String sortedCodeData = censusAnalyserProblem.getSortedCensusStateData();
             IndianStateCode[] stateCSV = new Gson().fromJson(sortedCodeData, IndianStateCode[].class);
             Assert.assertEquals("AD", stateCSV[0].getStateCode());
@@ -161,7 +162,7 @@ public class IndianStatesAnalyserTest {
     @Test
     public void givenIndianCodeData_WhenSortedStateWise_ShouldReturnLastSortedResult() {
         try {
-            censusAnalyserProblem.loadIndianCensusData(INDIAN_STATE_CODE_DATA_PATH);
+            censusAnalyserProblem.loadIndianStateCodeData(INDIAN_STATE_CODE_DATA_PATH);
             String sortedCodeData = censusAnalyserProblem.getSortedCensusStateData();
             IndianStateCode[] stateCSV = new Gson().fromJson(sortedCodeData, IndianStateCode[].class);
             Assert.assertEquals("WB", stateCSV[36].getStateCode());
@@ -173,10 +174,22 @@ public class IndianStatesAnalyserTest {
     @Test
     public void givenTheStateCensusData_WhenSortedOnPopulation_ShouldReturnSortedResult() {
         try {
-            censusAnalyserProblem.loadIndianStateCodeData(INDIAN_STATE_CENSUS_DATA_PATH);
-            String sortedCensusData = censusAnalyserProblem.getPopulationWiseSortedCensusData();
+            censusAnalyserProblem.loadIndianCensusData(INDIAN_STATE_CENSUS_DATA_PATH);
+            String sortedCensusData = censusAnalyserProblem.getPopulationStateWiseSortedCensusData();
             IndianCensusData[] stateCSV = new Gson().fromJson(sortedCensusData, IndianCensusData[].class);
             Assert.assertEquals(199812341, stateCSV[0].getPopulation());
+        } catch (MyExceptions e) {
+            e.getStackTrace();
+        }
+    }
+
+    @Test
+    public void givenTheStateCensusData_WhenSortedOnPopulationDensity_ShouldReturnSortedResult() {
+        try {
+            censusAnalyserProblem.loadIndianCensusData(INDIAN_STATE_CENSUS_DATA_PATH);
+            String sortedCensusData = censusAnalyserProblem.getPopulationDensityWiseSortedCensusData();
+            CensusDAO[] stateCSV = new Gson().fromJson(sortedCensusData, CensusDAO[].class);
+            Assert.assertEquals(1102, stateCSV[0].density);
         } catch (MyExceptions e) {
             e.getStackTrace();
         }

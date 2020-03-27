@@ -9,15 +9,15 @@ public class IndianCensusData {
         this.state = state;
     }
 
-    public void setPopulation(String population) {
+    public void setPopulation(int population) {
         this.population = population;
     }
 
-    public void setAreaInSqKm(String areaInSqKm) {
+    public void setAreaInSqKm(int areaInSqKm) {
         this.areaInSqKm = areaInSqKm;
     }
 
-    public void setDensityPerSqKm(String densityPerSqKm) {
+    public void setDensityPerSqKm(int densityPerSqKm) {
         this.densityPerSqKm = densityPerSqKm;
     }
 
@@ -26,37 +26,38 @@ public class IndianCensusData {
         return state;
     }
 
-    public String getPopulation() {
+    public int getPopulation() {
         return population;
     }
 
-    public String getAreaInSqKm() {
+    public int getAreaInSqKm() {
         return areaInSqKm;
     }
 
-    public String getDensityPerSqKm() {
+    public int getDensityPerSqKm() {
         return densityPerSqKm;
     }
 
-    @CsvBindByName(column = "State", required = true)
-    public String state;
+    @CsvBindByName(column = "State",required = true)
+    private String state;
 
-    @CsvBindByName(column = "Population", required = true)
-    public String population;
+    @CsvBindByName(column = "Population",required = true)
+    private int population;
 
-    @CsvBindByName(column = "AreaInSqKm", required = true)
-    public String areaInSqKm;
+    @CsvBindByName(column = "AreaInSqKm",required = true)
+    private int areaInSqKm;
 
-    @CsvBindByName(column = "DensityPerSqKm", required = true)
-    public String densityPerSqKm;
+    @CsvBindByName(column = "DensityPerSqKm",required = true)
+    private int densityPerSqKm;
 
     @Override
     public String toString() {
-        return "CensusData{" +
-                "state='" + state + '\'' +
-                ", population='" + population + '\'' +
-                ", areaInSqKm='" + areaInSqKm + '\'' +
-                ", densityPerSqKm='" + densityPerSqKm + '\'' +
+        return "com.bridgelabz.censusanalyserproject.IndiaCensusCSV {"+
+                "State='" + state + '\'' +
+                " ,Population='" + population + '\'' +
+                " ,AreaInSqKm='" + areaInSqKm + '\'' +
+                " ,DensityPerSqKm='" + densityPerSqKm + '\'' +
                 '}';
     }
+
 }

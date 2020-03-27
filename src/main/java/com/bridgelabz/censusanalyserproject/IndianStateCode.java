@@ -4,8 +4,22 @@ import com.opencsv.bean.CsvBindByName;
 
 public class IndianStateCode {
 
-    //SETTER
-    public void setSrNo(String srNo) {
+    @CsvBindByName(column = "SrNo",required = true)
+    private int srNo;
+
+    @CsvBindByName(column = "State",required = true)
+    private String state;
+
+    @CsvBindByName(column = "Name",required = true)
+    private String name;
+
+    @CsvBindByName(column = "TIN",required = true)
+    private int tin;
+
+    @CsvBindByName(column = "StateCode",required = true)
+    private String stateCode;
+
+    public void setSrNo(int srNo) {
         this.srNo = srNo;
     }
 
@@ -17,16 +31,15 @@ public class IndianStateCode {
         this.name = name;
     }
 
-    public void setTIN(String TIN) {
-        this.TIN = TIN;
+    public void setTin(int tin) {
+        this.tin = tin;
     }
 
     public void setStateCode(String stateCode) {
         this.stateCode = stateCode;
     }
 
-    //GETTER
-    public String getSrNo() {
+    public int getSrNo() {
         return srNo;
     }
 
@@ -38,36 +51,21 @@ public class IndianStateCode {
         return name;
     }
 
-    public String getTIN() {
-        return TIN;
+    public int getTin() {
+        return tin;
     }
 
     public String getStateCode() {
         return stateCode;
     }
 
-    @CsvBindByName(column = "SrNo", required = true)
-    public String srNo;
-
-    @CsvBindByName(column = "State", required = true)
-    public String state;
-
-    @CsvBindByName(column = "Name", required = false)
-    public String name;
-
-    @CsvBindByName(column = "TIN", required = true)
-    public String TIN;
-
-    @CsvBindByName(column = "StateCode", required = true)
-    public String stateCode;
-
     @Override
     public String toString() {
-        return "com.bridgelabz.censusanalyserproject.IndianStateCode {" +
+        return "com.bridgelabz.censusanalyserproject.IndianStateCode {"+
                 "SrNo='" + srNo + '\'' +
                 " ,State='" + state + '\'' +
                 " ,Name='" + name + '\'' +
-                " ,TIN='" + TIN + '\'' +
+                " ,TIN='" + tin + '\'' +
                 " ,StateCode='" + stateCode + '\'' +
                 '}';
     }

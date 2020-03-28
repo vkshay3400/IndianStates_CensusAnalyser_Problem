@@ -30,52 +30,48 @@ public class IndianStatesAnalyser {
 
     //METHOD FOR STATE CENSUS
     public int loadIndianCensusData(String csvFilePath) throws MyExceptions {
-        String extension = getFileExtension(csvFilePath);
-        if (!Pattern.matches(PATTERN_FOR_CSV_FILE, extension))
-            throw new MyExceptions(MyExceptions.Exception_Type.PATH_NOT_FOUND, "No such a path");
-        try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
-            IcsvBuilder csvBuilder = CsvBuilderFactory.createCsvBuilder();
-            Iterator<IndianCensusData> stateCensusIterator = csvBuilder.getCSVFileIterator(reader, IndianCensusData.class);
-            Iterable<IndianCensusData> stateCensuses = () -> stateCensusIterator;
-            StreamSupport.stream(stateCensuses.spliterator(), false)
-                    .forEach(csvStateCensus -> censusMap.put(csvStateCensus.getState(), new CensusDAO(csvStateCensus)));
-            censusList = censusMap.values().stream().collect(Collectors.toList());
-            return censusMap.size();
-        } catch (RuntimeException e) {
-            throw new MyExceptions(MyExceptions.Exception_Type.WRONG_DELIMITER_OR_HEADER, "Delimiter or header not found");
-        } catch (NoSuchFileException e) {
-            throw new MyExceptions(MyExceptions.Exception_Type.FILE_NOT_FOUND, "File not found");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (CsvBuilderException e) {
-            e.printStackTrace();
-        }
-        return 0;
+        return this.loadIndiaStateData(csvFilePath, IndianCensusData.class);
     }
 
     //METHOD FOR STATE CODE
     public int loadIndianStateCodeData(String csvFilePath) throws MyExceptions {
+        return this.loadIndiaStateData(csvFilePath, IndianStateCode.class);
+    }
+
+    //COMMON METHOD TO LOAD INDIA CENSUS AND CODE
+    private <E> int loadIndiaStateData(String csvFilePath, Class<E> censusCsvClass) throws MyExceptions {
         String extension = getFileExtension(csvFilePath);
+        int numberOfRecords = 0;
         if (!Pattern.matches(PATTERN_FOR_CSV_FILE, extension))
             throw new MyExceptions(MyExceptions.Exception_Type.PATH_NOT_FOUND, "No such a path");
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
             IcsvBuilder csvBuilder = CsvBuilderFactory.createCsvBuilder();
-            Iterator<IndianStateCode> stateCodeIterator = csvBuilder.getCSVFileIterator(reader, IndianStateCode.class);
-            Iterable<IndianStateCode> stateCensuses = () -> stateCodeIterator;
-            StreamSupport.stream(stateCensuses.spliterator(), false)
-                    .forEach(csvStateCode -> censusMap.put(csvStateCode.getState(), new CensusDAO(csvStateCode)));
-            censusList = censusMap.values().stream().collect(Collectors.toList());
-            return censusMap.size();
+            Iterator<E> stateCensusIterator = csvBuilder.getCSVFileIterator(reader, censusCsvClass);
+            Iterable<E> csvFileIterator = () -> stateCensusIterator;
+            if (censusCsvClass.getName().contains("IndianCensusData")) {
+                StreamSupport.stream(csvFileIterator.spliterator(), false)
+                        .map(IndianCensusData.class::cast)
+                        .forEach(censusCSV -> censusMap.put(censusCSV.getState(), new CensusDAO(censusCSV)));
+                censusList = censusMap.values().stream().collect(Collectors.toList());
+                return censusMap.size();
+            }
+            if (censusCsvClass.getName().contains("IndianStateCode")) {
+                StreamSupport.stream(csvFileIterator.spliterator(), false)
+                        .map(IndianStateCode.class::cast)
+                        .forEach(censusCSV -> censusMap.put(censusCSV.getStateCode(), new CensusDAO(censusCSV)));
+                censusList = censusMap.values().stream().collect(Collectors.toList());
+                return censusMap.size();
+            }
         } catch (RuntimeException e) {
             throw new MyExceptions(MyExceptions.Exception_Type.WRONG_DELIMITER_OR_HEADER, "Delimiter or header not found");
         } catch (NoSuchFileException e) {
             throw new MyExceptions(MyExceptions.Exception_Type.FILE_NOT_FOUND, "File not found");
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new MyExceptions(MyExceptions.Exception_Type.NO_SUCH_CENSUS_DATA, "No census data");
         } catch (CsvBuilderException e) {
             e.printStackTrace();
         }
-        return 0;
+        return numberOfRecords;
     }
 
     //METHOD FOR US CENSUS DATA

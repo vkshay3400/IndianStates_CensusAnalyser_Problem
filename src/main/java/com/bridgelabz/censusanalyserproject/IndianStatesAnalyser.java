@@ -63,9 +63,31 @@ public class IndianStatesAnalyser {
             Iterator<IndianStateCode> stateCodeIterator = csvBuilder.getCSVFileIterator(reader, IndianStateCode.class);
             Iterable<IndianStateCode> stateCensuses = () -> stateCodeIterator;
             StreamSupport.stream(stateCensuses.spliterator(), false)
-                    .forEach(csvStateCensus -> censusMap.put(csvStateCensus.getStateCode(), new CensusDAO(csvStateCensus)));
+                    .forEach(csvStateCode -> censusMap.put(csvStateCode.getState(), new CensusDAO(csvStateCode)));
             censusList = censusMap.values().stream().collect(Collectors.toList());
             return censusMap.size();
+        } catch (RuntimeException e) {
+            throw new MyExceptions(MyExceptions.Exception_Type.WRONG_DELIMITER_OR_HEADER, "Delimiter or header not found");
+        } catch (NoSuchFileException e) {
+            throw new MyExceptions(MyExceptions.Exception_Type.FILE_NOT_FOUND, "File not found");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (CsvBuilderException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    //METHOD FOR US CENSUS DATA
+    public int loadUSCensusData(String csvFilePath) throws MyExceptions {
+        String extension = getFileExtension(csvFilePath);
+        int numberOfRecords = 0;
+        if (!Pattern.matches(PATTERN_FOR_CSV_FILE, extension))
+            throw new MyExceptions(MyExceptions.Exception_Type.PATH_NOT_FOUND, "No such a path");
+        try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
+            IcsvBuilder csvBuilder = CsvBuilderFactory.createCsvBuilder();
+            List<USCensusData> csvUSCensusList = csvBuilder.getCSVFileList(reader, USCensusData.class);
+            numberOfRecords = csvUSCensusList.size();
         } catch (RuntimeException e) {
             throw new MyExceptions(MyExceptions.Exception_Type.WRONG_DELIMITER_OR_HEADER, "No such delimiter and header");
         } catch (NoSuchFileException e) {
@@ -75,7 +97,7 @@ public class IndianStatesAnalyser {
         } catch (CsvBuilderException e) {
             e.printStackTrace();
         }
-        return 0;
+        return numberOfRecords;
     }
 
     //METHOD TO GET EXTENSION OF CSV FILE

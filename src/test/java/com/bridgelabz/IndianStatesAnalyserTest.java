@@ -79,7 +79,6 @@ public class IndianStatesAnalyserTest {
         try {
             int checkCode = censusAnalyserProblem.loadIndianStateCodeData(INDIAN_STATE_CODE_DATA_PATH);
             Assert.assertEquals(37, checkCode);
-            System.out.println(checkCode);
         } catch (MyExceptions e) {
             e.printStackTrace();
         }
@@ -242,6 +241,16 @@ public class IndianStatesAnalyserTest {
             Assert.assertEquals(142, stateCSV[28].area);
         } catch (MyExceptions e) {
             e.getStackTrace();
+        }
+    }
+
+    @Test
+    public void givenUSCensus_WhenNumberOfRecordMatches_ShouldReturnTrue() {
+        try {
+            int checkCensus = censusAnalyserProblem.loadUSCensusData(US_CENSUS_DATA_PATH);
+            Assert.assertEquals(51, checkCensus);
+        } catch (MyExceptions e) {
+            e.printStackTrace();
         }
     }
 }

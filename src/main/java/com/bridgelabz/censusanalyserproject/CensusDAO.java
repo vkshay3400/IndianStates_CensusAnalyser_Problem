@@ -5,16 +5,15 @@ public class CensusDAO {
     public int population;
     public int area;
     public int density;
-    public String stateCode;
 
-    public CensusDAO(IndianCensusData csvStateCensus) {
-        this.state = csvStateCensus.getState();
-        this.population = csvStateCensus.getPopulation();
-        this.area = csvStateCensus.getAreaInSqKm();
-        this.density = csvStateCensus.getDensityPerSqKm();
+    public CensusDAO(IndianCensusData csvIndiaCensus) {
+        this.state = csvIndiaCensus.getState();
+        this.population = csvIndiaCensus.getPopulation();
+        this.area = csvIndiaCensus.getAreaInSqKm();
+        this.density = csvIndiaCensus.getDensityPerSqKm();
     }
 
     public CensusDAO(IndianStateCode csvStateCode) {
-        this.stateCode = csvStateCode.getStateCode();
+        this.state = csvStateCode.getStateCode();
     }
 }

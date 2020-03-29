@@ -1,4 +1,4 @@
-package com.bridgelabz.exception;
+package com.bridgelabz.censusanalyserproject.exception;
 
 public class CsvBuilderException extends Exception {
     public enum Exception_Type {

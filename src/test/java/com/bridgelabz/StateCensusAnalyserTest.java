@@ -1,15 +1,15 @@
 package com.bridgelabz;
 
-import com.bridgelabz.censusanalyserproject.CensusDAO;
-import com.bridgelabz.censusanalyserproject.IndianCensusData;
-import com.bridgelabz.censusanalyserproject.IndianStateCode;
-import com.bridgelabz.censusanalyserproject.IndianStatesAnalyser;
-import com.bridgelabz.exception.MyExceptions;
+import com.bridgelabz.censusanalyserproject.dao.CensusDAO;
+import com.bridgelabz.censusanalyserproject.dto.IndianCensusData;
+import com.bridgelabz.censusanalyserproject.dto.IndianStateCodeCSV;
+import com.bridgelabz.censusanalyserproject.service.StateCensusAnalyser;
+import com.bridgelabz.censusanalyserproject.exception.MyExceptions;
 import com.google.gson.Gson;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class IndianStatesAnalyserTest {
+public class StateCensusAnalyserTest {
     private static final String INDIAN_STATE_CENSUS_DATA_PATH = "./src/test/resources/StateCensusData.csv";
     private static final String WRONG_INDIAN_STATE_CENSUS_DATA_FILE = "./src/test/resources/StateCensus.csv";
     private static final String WRONG_INDIAN_STATE_CENSUS_DATA_PATH = "./src/test/resources/StateCensusData.sh";
@@ -22,7 +22,7 @@ public class IndianStatesAnalyserTest {
     private static final String WRONG_HEADER_STATE_CODE_DATA_PATH = "./src/test/resources/WrongHeaderStateCodeData.csv";
     private static final String US_CENSUS_DATA_PATH = "./src/test/resources/USCensusData.csv";
 
-    IndianStatesAnalyser censusAnalyserProblem = new IndianStatesAnalyser();
+    StateCensusAnalyser censusAnalyserProblem = new StateCensusAnalyser();
 
     @Test
     public void givenIndianCensusAnalyserCensus_WhenNumberOfRecordMatches_ShouldReturnTrue() {
@@ -153,7 +153,7 @@ public class IndianStatesAnalyserTest {
         try {
             censusAnalyserProblem.loadIndianStateCodeData(INDIAN_STATE_CODE_DATA_PATH);
             String sortedCodeData = censusAnalyserProblem.getSortedCensusStateData();
-            IndianStateCode[] stateCSV = new Gson().fromJson(sortedCodeData, IndianStateCode[].class);
+            IndianStateCodeCSV[] stateCSV = new Gson().fromJson(sortedCodeData, IndianStateCodeCSV[].class);
             Assert.assertEquals("AD", stateCSV[0].getStateCode());
         } catch (MyExceptions e) {
             e.printStackTrace();
@@ -165,7 +165,7 @@ public class IndianStatesAnalyserTest {
         try {
             censusAnalyserProblem.loadIndianStateCodeData(INDIAN_STATE_CODE_DATA_PATH);
             String sortedCodeData = censusAnalyserProblem.getSortedCensusStateData();
-            IndianStateCode[] stateCSV = new Gson().fromJson(sortedCodeData, IndianStateCode[].class);
+            IndianStateCodeCSV[] stateCSV = new Gson().fromJson(sortedCodeData, IndianStateCodeCSV[].class);
             Assert.assertEquals("WB", stateCSV[36].getStateCode());
         } catch (MyExceptions e) {
             e.printStackTrace();

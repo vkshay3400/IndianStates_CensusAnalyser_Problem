@@ -1,7 +1,13 @@
-package com.bridgelabz.censusanalyserproject;
+package com.bridgelabz.censusanalyserproject.service;
 
-import com.bridgelabz.exception.CsvBuilderException;
-import com.bridgelabz.exception.MyExceptions;
+import com.bridgelabz.censusanalyserproject.utility.CsvBuilderFactory;
+import com.bridgelabz.censusanalyserproject.utility.IcsvBuilder;
+import com.bridgelabz.censusanalyserproject.dao.CensusDAO;
+import com.bridgelabz.censusanalyserproject.dto.IndianCensusData;
+import com.bridgelabz.censusanalyserproject.dto.IndianStateCodeCSV;
+import com.bridgelabz.censusanalyserproject.dto.USCensusCSV;
+import com.bridgelabz.censusanalyserproject.exception.CsvBuilderException;
+import com.bridgelabz.censusanalyserproject.exception.MyExceptions;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -14,7 +20,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-public class IndianStatesAnalyser {
+public class StateCensusAnalyser {
     //FOR CSV FILE
     private static final String PATTERN_FOR_CSV_FILE = "^[a-zA-Z0-9./_@]*[.]+[c][s][v]$";
 
@@ -23,7 +29,7 @@ public class IndianStatesAnalyser {
     Map<String, CensusDAO> censusMap = null;
 
     //CONSTRUCTOR
-    public IndianStatesAnalyser() {
+    public StateCensusAnalyser() {
         this.censusList = new ArrayList<>();
         this.censusMap = new HashMap<>();
     }
@@ -35,7 +41,7 @@ public class IndianStatesAnalyser {
 
     //METHOD FOR STATE CODE
     public int loadIndianStateCodeData(String csvFilePath) throws MyExceptions {
-        return this.loadIndiaStateData(csvFilePath, IndianStateCode.class);
+        return this.loadIndiaStateData(csvFilePath, IndianStateCodeCSV.class);
     }
 
     //COMMON METHOD TO LOAD INDIA CENSUS AND CODE
@@ -57,7 +63,7 @@ public class IndianStatesAnalyser {
             }
             if (censusCsvClass.getName().contains("IndianStateCode")) {
                 StreamSupport.stream(csvFileIterator.spliterator(), false)
-                        .map(IndianStateCode.class::cast)
+                        .map(IndianStateCodeCSV.class::cast)
                         .forEach(censusCSV -> censusMap.put(censusCSV.getStateCode(), new CensusDAO(censusCSV)));
                 censusList = censusMap.values().stream().collect(Collectors.toList());
                 return censusMap.size();
@@ -82,7 +88,7 @@ public class IndianStatesAnalyser {
             throw new MyExceptions(MyExceptions.Exception_Type.PATH_NOT_FOUND, "No such a path");
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
             IcsvBuilder csvBuilder = CsvBuilderFactory.createCsvBuilder();
-            List<USCensusData> csvUSCensusList = csvBuilder.getCSVFileList(reader, USCensusData.class);
+            List<USCensusCSV> csvUSCensusList = csvBuilder.getCSVFileList(reader, USCensusCSV.class);
             numberOfRecords = csvUSCensusList.size();
         } catch (RuntimeException e) {
             throw new MyExceptions(MyExceptions.Exception_Type.WRONG_DELIMITER_OR_HEADER, "No such delimiter and header");

@@ -1,8 +1,8 @@
-package com.bridgelabz.censusanalyserproject;
+package com.bridgelabz.censusanalyserproject.dto;
 
 import com.opencsv.bean.CsvBindByName;
 
-public class IndianStateCode {
+public class IndianStateCodeCSV {
 
     @CsvBindByName(column = "SrNo",required = true)
     private int srNo;
@@ -61,7 +61,7 @@ public class IndianStateCode {
 
     @Override
     public String toString() {
-        return "com.bridgelabz.censusanalyserproject.IndianStateCode {"+
+        return "com.bridgelabz.censusanalyserproject.dto.IndianStateCode {"+
                 "SrNo='" + srNo + '\'' +
                 " ,State='" + state + '\'' +
                 " ,Name='" + name + '\'' +

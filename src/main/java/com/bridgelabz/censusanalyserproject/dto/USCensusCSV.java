@@ -1,8 +1,8 @@
-package com.bridgelabz.censusanalyserproject;
+package com.bridgelabz.censusanalyserproject.dto;
 
 import com.opencsv.bean.CsvBindByName;
 
-public class USCensusData {
+public class USCensusCSV {
     @CsvBindByName(column = " State Id", required = true)
     private String stateId;
     @CsvBindByName(column = "State", required = true)

@@ -1,6 +1,6 @@
-package com.bridgelabz.censusanalyserproject;
+package com.bridgelabz.censusanalyserproject.utility;
 
-import com.bridgelabz.exception.CsvBuilderException;
+import com.bridgelabz.censusanalyserproject.exception.CsvBuilderException;
 
 import java.io.Reader;
 import java.util.Iterator;

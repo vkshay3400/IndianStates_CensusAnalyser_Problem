@@ -1,7 +1,7 @@
-package com.bridgelabz.censusanalyserproject;
+package com.bridgelabz.censusanalyserproject.utility;
 
-import com.bridgelabz.exception.CsvBuilderException;
-import com.bridgelabz.exception.MyExceptions;
+import com.bridgelabz.censusanalyserproject.exception.CsvBuilderException;
+import com.bridgelabz.censusanalyserproject.exception.MyExceptions;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 

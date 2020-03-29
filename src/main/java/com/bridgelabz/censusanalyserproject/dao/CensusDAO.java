@@ -1,4 +1,7 @@
-package com.bridgelabz.censusanalyserproject;
+package com.bridgelabz.censusanalyserproject.dao;
+
+import com.bridgelabz.censusanalyserproject.dto.IndianCensusData;
+import com.bridgelabz.censusanalyserproject.dto.IndianStateCodeCSV;
 
 public class CensusDAO {
     public String state;
@@ -13,7 +16,7 @@ public class CensusDAO {
         this.density = csvIndiaCensus.getDensityPerSqKm();
     }
 
-    public CensusDAO(IndianStateCode csvStateCode) {
+    public CensusDAO(IndianStateCodeCSV csvStateCode) {
         this.state = csvStateCode.getStateCode();
     }
 }

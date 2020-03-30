@@ -2,21 +2,37 @@ package com.bridgelabz.censusanalyserproject.dao;
 
 import com.bridgelabz.censusanalyserproject.dto.IndianCensusData;
 import com.bridgelabz.censusanalyserproject.dto.IndianStateCodeCSV;
+import com.bridgelabz.censusanalyserproject.dto.USCensusCSV;
 
 public class CensusDAO {
-    public String state;
     public int population;
-    public int area;
-    public int density;
+    public double areaInSqKm;
+    public double densityPerSqKm;
+    public int tin;
+    public int srNo;
+    public String name;
+    public String state;
+    public String stateCode;
 
-    public CensusDAO(IndianCensusData csvIndiaCensus) {
-        this.state = csvIndiaCensus.getState();
-        this.population = csvIndiaCensus.getPopulation();
-        this.area = csvIndiaCensus.getAreaInSqKm();
-        this.density = csvIndiaCensus.getDensityPerSqKm();
+    public CensusDAO(IndianCensusData csvStateCensus) {
+        this.state = csvStateCensus.getState();
+        this.population = csvStateCensus.getPopulation();
+        this.areaInSqKm = csvStateCensus.getAreaInSqKm();
+        this.densityPerSqKm = csvStateCensus.getDensityPerSqKm();
     }
 
     public CensusDAO(IndianStateCodeCSV csvStateCode) {
-        this.state = csvStateCode.getStateCode();
+        this.srNo = csvStateCode.getSrNo();
+        this.state = csvStateCode.getState();
+        this.name = csvStateCode.getName();
+        this.tin = csvStateCode.getTin();
+        this.stateCode = csvStateCode.getStateCode();
+    }
+
+    public CensusDAO(USCensusCSV usCensusCSV) {
+        state = usCensusCSV.getState();
+        areaInSqKm = usCensusCSV.getTotalArea();
+        densityPerSqKm = usCensusCSV.getDensityPerSqKm();
+        population = usCensusCSV.getPopulation();
     }
 }

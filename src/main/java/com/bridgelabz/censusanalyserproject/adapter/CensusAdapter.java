@@ -35,7 +35,7 @@ public abstract class CensusAdapter {
             IcsvBuilder csvBuilder = CsvBuilderFactory.createCsvBuilder();
             Iterator<E> stateCensusIterator = csvBuilder.getCSVFileIterator(reader, censusCsvClass);
             Iterable<E> csvIterable = () -> stateCensusIterator;
-            if (censusCsvClass.getName().contains("IndiaCensusCSV")) {
+            if (censusCsvClass.getName().contains("IndianCensusData")) {
                 StreamSupport.stream(csvIterable.spliterator(), false)
                         .map(IndianCensusData.class::cast)
                         .forEach(censusCSV -> censusMap.put(censusCSV.getState(), new CensusDAO(censusCSV)));
@@ -46,6 +46,8 @@ public abstract class CensusAdapter {
                         .map(USCensusCSV.class::cast)
                         .forEach(censusCSV -> censusMap.put(censusCSV.getState(), new CensusDAO(censusCSV)));
                 return censusMap;
+            } else {
+                throw new MyExceptions(MyExceptions.Exception_Type.NO_SUCH_COUNTRY, "Wrong country name");
             }
         } catch (NoSuchFileException e) {
             throw new MyExceptions(MyExceptions.Exception_Type.FILE_NOT_FOUND, "File not found");

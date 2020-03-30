@@ -22,12 +22,22 @@ public class CsvBuilder implements IcsvBuilder {
     }
 
     @Override
-    public <E> List<E> getCSVFileList(Reader reader, Class<E> csvClass) throws CsvBuilderException {
-        return this.getCSVBean(reader,csvClass).parse();
+    public <E> List<E> getCSVFileList(Reader reader, Class<E> csvClass) {
+        try {
+            return this.getCSVBean(reader, csvClass).parse();
+        } catch (CsvBuilderException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
-    public <E> Iterator<E> getCSVFileIterator(Reader reader, Class<E> csvClass) throws CsvBuilderException {
-        return this.getCSVBean(reader,csvClass).iterator();
+    public <E> Iterator<E> getCSVFileIterator(Reader reader, Class<E> csvClass) {
+        try {
+            return this.getCSVBean(reader, csvClass).iterator();
+        } catch (CsvBuilderException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

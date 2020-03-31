@@ -14,7 +14,6 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -30,12 +29,11 @@ public class IndiaCensusAdapter extends CensusAdapter {
         Map<String, CensusDAO> censusMap = super.loadCensusData(IndianCensusData.class, csvFilePath[0]);
         if (csvFilePath.length == 1)
             return censusMap;
-        return this.loadStateCodeCensusData(csvFilePath[1]);
+        return this.loadStateCodeCensusData(censusMap, csvFilePath[1]);
     }
 
     //FUNCTION TO LOAD CENSUS DATA
-    private <E> Map<String, CensusDAO> loadStateCodeCensusData(String csvFilePath) throws MyExceptions {
-        Map<String, CensusDAO> censusMap = new HashMap<>();
+    private <E> Map<String, CensusDAO> loadStateCodeCensusData(Map<String, CensusDAO> censusMap, String csvFilePath) throws MyExceptions {
         String extension = StateCensusAnalyser.getFileExtension(csvFilePath);
         if (!Pattern.matches(PATTERN_FOR_CSV_FILE, extension))
             throw new MyExceptions(MyExceptions.Exception_Type.PATH_NOT_FOUND, "No such path");
@@ -44,8 +42,8 @@ public class IndiaCensusAdapter extends CensusAdapter {
             Iterator<IndianStateCodeCSV> stateCensusIterator = csvBuilder.getCSVFileIterator(reader, IndianStateCodeCSV.class);
             Iterable<IndianStateCodeCSV> csvIterable = () -> stateCensusIterator;
             StreamSupport.stream(csvIterable.spliterator(), false)
-                    .map(IndianStateCodeCSV.class::cast)
-                    .forEach(censusCSV -> censusMap.put(censusCSV.getState(), new CensusDAO(censusCSV)));
+                    .filter(csvState -> censusMap.get(csvState.getState()) != null)
+                    .forEach(csvState -> censusMap.get(csvState.getState()).stateCode = csvState.getStateCode());
             return censusMap;
         } catch (RuntimeException e) {
             throw new MyExceptions(MyExceptions.Exception_Type.WRONG_DELIMITER_OR_HEADER, "Incorrect Delimiter or Header");

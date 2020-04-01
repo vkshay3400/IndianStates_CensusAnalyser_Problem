@@ -10,8 +10,8 @@ public class IndianStateCodeCSV {
     @CsvBindByName(column = "State",required = true)
     private String state;
 
-    @CsvBindByName(column = "Name",required = true)
-    private String name;
+//    @CsvBindByName(column = "Name",required = true)
+//    private String name;
 
     @CsvBindByName(column = "TIN",required = true)
     private int tin;
@@ -27,9 +27,9 @@ public class IndianStateCodeCSV {
         this.state = state;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    //public void setName(String name) {
+//        this.name = name;
+//    }
 
     public void setTin(int tin) {
         this.tin = tin;
@@ -47,9 +47,9 @@ public class IndianStateCodeCSV {
         return state;
     }
 
-    public String getName() {
-        return name;
-    }
+    //public String getName() {
+//        return name;
+//    }
 
     public int getTin() {
         return tin;
@@ -64,7 +64,7 @@ public class IndianStateCodeCSV {
         return "com.bridgelabz.censusanalyserproject.dto.IndianStateCode {"+
                 "SrNo='" + srNo + '\'' +
                 " ,State='" + state + '\'' +
-                " ,Name='" + name + '\'' +
+              //  " ,Name='" + name + '\'' +
                 " ,TIN='" + tin + '\'' +
                 " ,StateCode='" + stateCode + '\'' +
                 '}';

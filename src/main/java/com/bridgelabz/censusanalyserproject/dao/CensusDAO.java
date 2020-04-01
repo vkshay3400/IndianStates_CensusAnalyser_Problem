@@ -17,6 +17,22 @@ public class CensusDAO {
     public String state;
     public String stateCode;
 
+    public int getPopulation() {
+        return population;
+    }
+
+    public double getDensityPerSqKm() {
+        return densityPerSqKm;
+    }
+
+    public void setPopulation(int population) {
+        this.population = population;
+    }
+
+    public void setDensityPerSqKm(double densityPerSqKm) {
+        this.densityPerSqKm = densityPerSqKm;
+    }
+
     public CensusDAO(IndianCensusData csvStateCensus) {
         this.state = csvStateCensus.getState();
         this.population = csvStateCensus.getPopulation();
@@ -56,7 +72,7 @@ public class CensusDAO {
         if (country.equals(StateCensusAnalyser.COUNTRY.INDIA))
             return new IndianCensusData(state, stateCode, population, areaInSqKm, densityPerSqKm);
         if (country.equals(StateCensusAnalyser.COUNTRY.US))
-            return new USCensusCSV(stateCode, state, population, areaInSqKm, population);
+            return new USCensusCSV(stateCode, state, population, areaInSqKm, densityPerSqKm);
         return null;
     }
 }

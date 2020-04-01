@@ -352,4 +352,56 @@ public class StateCensusAnalyserTest {
             e.getStackTrace();
         }
     }
+
+    @Test
+    public void givenIndia_StateCensus_WhenSortedOnPopulatousStateAndDensity_ShouldReturnFirstSortedResult() {
+        try {
+            StateCensusAnalyser censusAnalyserProblem = new StateCensusAnalyser(StateCensusAnalyser.COUNTRY.INDIA);
+            censusAnalyserProblem.loadCensusData(US_CENSUS_DATA_PATH);
+            String sortedCensusData = censusAnalyserProblem.getSortCensusDataByPopulousStateWithDensity();
+            CensusDAO[] censusCSV = new Gson().fromJson(sortedCensusData, CensusDAO[].class);
+            Assert.assertEquals("Uttar Pradesh", censusCSV[50].state);
+        } catch (MyExceptions e) {
+            e.getStackTrace();
+        }
+    }
+
+    @Test
+    public void givenIndia_StateCensus_WhenSortedOnPopulatousStateAndDensity_ShouldReturnLastSortedResult() {
+        try {
+            StateCensusAnalyser censusAnalyserProblem = new StateCensusAnalyser(StateCensusAnalyser.COUNTRY.INDIA);
+            censusAnalyserProblem.loadCensusData(US_CENSUS_DATA_PATH);
+            String sortedCensusData = censusAnalyserProblem.getSortCensusDataByPopulousStateWithDensity();
+            CensusDAO[] censusCSV = new Gson().fromJson(sortedCensusData, CensusDAO[].class);
+            Assert.assertEquals("Sikkim", censusCSV[0].state);
+        } catch (MyExceptions e) {
+            e.getStackTrace();
+        }
+    }
+
+    @Test
+    public void givenUS_StateCensus_WhenSortedOnPopulatousStateAndDensity_ShouldReturnLastSortedResult() {
+        try {
+            StateCensusAnalyser censusAnalyserProblem = new StateCensusAnalyser(StateCensusAnalyser.COUNTRY.INDIA);
+            censusAnalyserProblem.loadCensusData(US_CENSUS_DATA_PATH);
+            String sortedCensusData = censusAnalyserProblem.getSortCensusDataByPopulousStateWithDensity();
+            CensusDAO[] censusCSV = new Gson().fromJson(sortedCensusData, CensusDAO[].class);
+            Assert.assertEquals("California", censusCSV[50].state);
+        } catch (MyExceptions e) {
+            e.getStackTrace();
+        }
+    }
+
+    @Test
+    public void givenUS_StateCensus_WhenSortedOnPopulatousStateAndDensity_ShouldReturnFirstSortedResult() {
+        try {
+            StateCensusAnalyser censusAnalyserProblem = new StateCensusAnalyser(StateCensusAnalyser.COUNTRY.INDIA);
+            censusAnalyserProblem.loadCensusData(US_CENSUS_DATA_PATH);
+            String sortedCensusData = censusAnalyserProblem.getSortCensusDataByPopulousStateWithDensity();
+            CensusDAO[] censusCSV = new Gson().fromJson(sortedCensusData, CensusDAO[].class);
+            Assert.assertEquals("Wyoming", censusCSV[0].state);
+        } catch (MyExceptions e) {
+            e.getStackTrace();
+        }
+    }
 }

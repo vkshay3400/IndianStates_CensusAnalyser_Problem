@@ -21,7 +21,6 @@ import java.util.stream.StreamSupport;
 
 public abstract class CensusAdapter {
 
-    //FOR CSV FILE
     private static final String PATTERN_FOR_CSV_FILE = "^[a-zA-Z0-9./_@]*[.]+[c][s][v]$";
 
     public abstract Map<String, CensusDAO> loadCensusData(String... csvFilePath) throws MyExceptions;
@@ -38,13 +37,13 @@ public abstract class CensusAdapter {
             if (censusCsvClass.getName().contains("IndianCensusData")) {
                 StreamSupport.stream(csvIterable.spliterator(), false)
                         .map(IndianCensusData.class::cast)
-                        .forEach(censusCSV -> censusMap.put(censusCSV.getState(), new CensusDAO(censusCSV)));
+                        .forEach(censusCSV -> censusMap.put(censusCSV.state, new CensusDAO(censusCSV)));
                 return censusMap;
             }
             if (censusCsvClass.getName().contains("USCensusCSV")) {
                 StreamSupport.stream(csvIterable.spliterator(), false)
                         .map(USCensusCSV.class::cast)
-                        .forEach(censusCSV -> censusMap.put(censusCSV.getState(), new CensusDAO(censusCSV)));
+                        .forEach(censusCSV -> censusMap.put(censusCSV.state, new CensusDAO(censusCSV)));
                 return censusMap;
             } else {
                 throw new MyExceptions(MyExceptions.Exception_Type.NO_SUCH_COUNTRY, "Wrong country name");

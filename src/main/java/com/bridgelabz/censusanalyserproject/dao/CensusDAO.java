@@ -1,7 +1,6 @@
 package com.bridgelabz.censusanalyserproject.dao;
 
 import com.bridgelabz.censusanalyserproject.dto.IndianCensusData;
-import com.bridgelabz.censusanalyserproject.dto.IndianStateCodeCSV;
 import com.bridgelabz.censusanalyserproject.dto.USCensusCSV;
 import com.bridgelabz.censusanalyserproject.service.StateCensusAnalyser;
 
@@ -13,7 +12,6 @@ public class CensusDAO {
     public double densityPerSqKm;
     public int tin;
     public int srNo;
-    public String name;
     public String state;
     public String stateCode;
 
@@ -25,33 +23,19 @@ public class CensusDAO {
         return densityPerSqKm;
     }
 
-    public void setPopulation(int population) {
-        this.population = population;
-    }
-
-    public void setDensityPerSqKm(double densityPerSqKm) {
-        this.densityPerSqKm = densityPerSqKm;
-    }
-
     public CensusDAO(IndianCensusData csvStateCensus) {
-        this.state = csvStateCensus.getState();
-        this.population = csvStateCensus.getPopulation();
-        this.areaInSqKm = csvStateCensus.getAreaInSqKm();
-        this.densityPerSqKm = csvStateCensus.getDensityPerSqKm();
-    }
-
-    public CensusDAO(IndianStateCodeCSV csvStateCode) {
-        this.srNo = csvStateCode.getSrNo();
-        this.state = csvStateCode.getState();
-        this.tin = csvStateCode.getTin();
-        this.stateCode = csvStateCode.getStateCode();
+        this.state = csvStateCensus.state;
+        this.population = csvStateCensus.population;
+        this.areaInSqKm = csvStateCensus.areaInSqKm;
+        this.densityPerSqKm = csvStateCensus.densityPerSqKm;
     }
 
     public CensusDAO(USCensusCSV usCensusCSV) {
-        state = usCensusCSV.getState();
-        areaInSqKm = usCensusCSV.getTotalArea();
-        densityPerSqKm = usCensusCSV.getDensityPerSqKm();
-        population = usCensusCSV.getPopulation();
+        this.state = usCensusCSV.state;
+        this.stateCode = usCensusCSV.stateId;
+        this.areaInSqKm = usCensusCSV.totalArea;
+        this.densityPerSqKm = usCensusCSV.densityPerSqKm;
+        this.population = usCensusCSV.population;
     }
 
     public static Comparator<CensusDAO> getSortComparator(StateCensusAnalyser.SORTING_MODE mode) {

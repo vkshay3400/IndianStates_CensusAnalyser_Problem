@@ -87,7 +87,7 @@ public class StateCensusAnalyserTest {
             checkCensus = censusAnalyserProblem.loadCensusData(INDIAN_STATE_CENSUS_DATA_PATH, INDIAN_STATE_CODE_DATA_PATH);
             String sortedCodeData = censusAnalyserProblem.getSortCensusData(StateCensusAnalyser.SORTING_MODE.STATECODE);
             IndianStateCodeCSV[] stateCSV = new Gson().fromJson(sortedCodeData, IndianStateCodeCSV[].class);
-            Assert.assertEquals("Andhra Pradesh", stateCSV[0].getState());
+            Assert.assertEquals("Andhra Pradesh", stateCSV[0].state);
         } catch (MyExceptions e) {
             e.printStackTrace();
         }
@@ -100,7 +100,7 @@ public class StateCensusAnalyserTest {
             checkCensus = censusAnalyserProblem.loadCensusData(INDIAN_STATE_CENSUS_DATA_PATH, INDIAN_STATE_CODE_DATA_PATH);
             String sortedCodeData = censusAnalyserProblem.getSortCensusData(StateCensusAnalyser.SORTING_MODE.STATECODE);
             IndianStateCodeCSV[] stateCSV = new Gson().fromJson(sortedCodeData, IndianStateCodeCSV[].class);
-            Assert.assertEquals("West Bengal", stateCSV[28].getState());
+            Assert.assertEquals("West Bengal", stateCSV[28].state);
         } catch (MyExceptions e) {
             e.printStackTrace();
         }
@@ -110,10 +110,10 @@ public class StateCensusAnalyserTest {
     public void givenIndianCensusAnalyser_StateCensus_WhenSortedOnPopulation_ShouldReturnFirstReversedSortedResult() {
         try {
             StateCensusAnalyser censusAnalyserProblem = new StateCensusAnalyser(StateCensusAnalyser.COUNTRY.INDIA);
-            censusAnalyserProblem.loadCensusData(INDIAN_STATE_CENSUS_DATA_PATH);
+            censusAnalyserProblem.loadCensusData(INDIAN_STATE_CODE_DATA_PATH);
             String sortedCensusData = censusAnalyserProblem.getSortCensusData(StateCensusAnalyser.SORTING_MODE.POPULATION);
             IndianCensusData[] stateCSV = new Gson().fromJson(sortedCensusData, IndianCensusData[].class);
-            Assert.assertEquals(607688, stateCSV[0].getPopulation());
+            Assert.assertEquals(607688, stateCSV[0].population);
         } catch (MyExceptions e) {
             e.getStackTrace();
         }
@@ -126,7 +126,7 @@ public class StateCensusAnalyserTest {
             censusAnalyserProblem.loadCensusData(INDIAN_STATE_CENSUS_DATA_PATH);
             String sortedCensusData = censusAnalyserProblem.getSortCensusData(StateCensusAnalyser.SORTING_MODE.POPULATION);
             IndianCensusData[] stateCSV = new Gson().fromJson(sortedCensusData, IndianCensusData[].class);
-            Assert.assertEquals(199812341, stateCSV[28].getPopulation());
+            Assert.assertEquals(199812341, stateCSV[28].population);
         } catch (MyExceptions e) {
             e.getStackTrace();
         }
@@ -285,7 +285,7 @@ public class StateCensusAnalyserTest {
     }
 
     @Test
-    public void givenIndia_StateCensus_WhenSortedOnPopulatousStateAndDensity_ShouldReturnFirstReversedSortedResult() {
+    public void givenIndia_StateCensus_WhenSortedOnPopulousStateAndDensity_ShouldReturnFirstReversedSortedResult() {
         try {
             StateCensusAnalyser censusAnalyserProblem = new StateCensusAnalyser(StateCensusAnalyser.COUNTRY.INDIA);
             censusAnalyserProblem.loadCensusData(US_CENSUS_DATA_PATH);
@@ -298,7 +298,7 @@ public class StateCensusAnalyserTest {
     }
 
     @Test
-    public void givenIndia_StateCensus_WhenSortedOnPopulatousStateAndDensity_ShouldReturnLastReversedSortedResult() {
+    public void givenIndia_StateCensus_WhenSortedOnPopulousStateAndDensity_ShouldReturnLastReversedSortedResult() {
         try {
             StateCensusAnalyser censusAnalyserProblem = new StateCensusAnalyser(StateCensusAnalyser.COUNTRY.INDIA);
             censusAnalyserProblem.loadCensusData(US_CENSUS_DATA_PATH);
@@ -311,7 +311,7 @@ public class StateCensusAnalyserTest {
     }
 
     @Test
-    public void givenUS_StateCensus_WhenSortedOnPopulatousStateAndDensity_ShouldReturnLastReversedSortedResult() {
+    public void givenUS_StateCensus_WhenSortedOnPopulousStateAndDensity_ShouldReturnLastReversedSortedResult() {
         try {
             StateCensusAnalyser censusAnalyserProblem = new StateCensusAnalyser(StateCensusAnalyser.COUNTRY.INDIA);
             censusAnalyserProblem.loadCensusData(US_CENSUS_DATA_PATH);
@@ -324,7 +324,7 @@ public class StateCensusAnalyserTest {
     }
 
     @Test
-    public void givenUS_StateCensus_WhenSortedOnPopulatousStateAndDensity_ShouldReturnFirstReversedSortedResult() {
+    public void givenUS_StateCensus_WhenSortedOnPopulousStateAndDensity_ShouldReturnFirstReversedSortedResult() {
         try {
             StateCensusAnalyser censusAnalyserProblem = new StateCensusAnalyser(StateCensusAnalyser.COUNTRY.INDIA);
             censusAnalyserProblem.loadCensusData(US_CENSUS_DATA_PATH);

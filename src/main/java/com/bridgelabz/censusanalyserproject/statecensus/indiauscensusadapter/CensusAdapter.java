@@ -1,12 +1,13 @@
-package com.bridgelabz.censusanalyserproject.adapter;
+package com.bridgelabz.censusanalyserproject.statecensus.indiauscensusadapter;
 
-import com.bridgelabz.censusanalyserproject.dao.CensusDAO;
-import com.bridgelabz.censusanalyserproject.dto.IndianCensusData;
-import com.bridgelabz.censusanalyserproject.dto.USCensusCSV;
+import com.bridgelabz.censusanalyserproject.censusdao.CensusDAO;
+import com.bridgelabz.censusanalyserproject.service.IndiaUSStateCensusAnalyser;
+import com.bridgelabz.censusanalyserproject.statecensus.dto.IndianCensusDataCSV;
+import com.bridgelabz.censusanalyserproject.statecensus.dto.USCensusCSV;
 import com.bridgelabz.censusanalyserproject.exception.CsvBuilderException;
 import com.bridgelabz.censusanalyserproject.exception.MyExceptions;
-import com.bridgelabz.censusanalyserproject.utility.CsvBuilderFactory;
-import com.bridgelabz.censusanalyserproject.utility.IcsvBuilder;
+import com.bridgelabz.censusanalyserproject.statecensus.builder.CsvBuilderFactory;
+import com.bridgelabz.censusanalyserproject.statecensus.builder.IcsvBuilder;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -27,7 +28,7 @@ public abstract class CensusAdapter {
 
     public <E> Map<String, CensusDAO> loadCensusData(Class<E> censusCsvClass, String... csvFilePath) throws MyExceptions {
         Map<String, CensusDAO> censusMap = new HashMap<>();
-        String extension = com.bridgelabz.censusanalyserproject.service.StateCensusAnalyser.getFileExtension(csvFilePath[0]);
+        String extension = IndiaUSStateCensusAnalyser.getFileExtension(csvFilePath[0]);
         if (!Pattern.matches(PATTERN_FOR_CSV_FILE, extension))
             throw new MyExceptions(MyExceptions.Exception_Type.PATH_NOT_FOUND, "No such path");
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath[0]))) {
@@ -36,7 +37,7 @@ public abstract class CensusAdapter {
             Iterable<E> csvIterable = () -> stateCensusIterator;
             if (censusCsvClass.getName().contains("IndianCensusData")) {
                 StreamSupport.stream(csvIterable.spliterator(), false)
-                        .map(IndianCensusData.class::cast)
+                        .map(IndianCensusDataCSV.class::cast)
                         .forEach(censusCSV -> censusMap.put(censusCSV.state, new CensusDAO(censusCSV)));
                 return censusMap;
             }

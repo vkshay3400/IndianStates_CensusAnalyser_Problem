@@ -1,13 +1,13 @@
-package com.bridgelabz.censusanalyserproject.adapter;
+package com.bridgelabz.censusanalyserproject.statecensus.indiauscensusadapter;
 
-import com.bridgelabz.censusanalyserproject.dao.CensusDAO;
-import com.bridgelabz.censusanalyserproject.dto.IndianCensusData;
-import com.bridgelabz.censusanalyserproject.dto.IndianStateCodeCSV;
+import com.bridgelabz.censusanalyserproject.censusdao.CensusDAO;
+import com.bridgelabz.censusanalyserproject.statecensus.builder.CsvBuilderFactory;
+import com.bridgelabz.censusanalyserproject.statecensus.dto.IndianCensusDataCSV;
+import com.bridgelabz.censusanalyserproject.statecensus.dto.IndianStateCodeCSV;
 import com.bridgelabz.censusanalyserproject.exception.CsvBuilderException;
 import com.bridgelabz.censusanalyserproject.exception.MyExceptions;
-import com.bridgelabz.censusanalyserproject.service.StateCensusAnalyser;
-import com.bridgelabz.censusanalyserproject.utility.CsvBuilderFactory;
-import com.bridgelabz.censusanalyserproject.utility.IcsvBuilder;
+import com.bridgelabz.censusanalyserproject.service.IndiaUSStateCensusAnalyser;
+import com.bridgelabz.censusanalyserproject.statecensus.builder.IcsvBuilder;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -26,7 +26,7 @@ public class IndiaCensusAdapter extends CensusAdapter {
 
     @Override
     public Map<String, CensusDAO> loadCensusData(String... csvFilePath) throws MyExceptions {
-        Map<String, CensusDAO> censusMap = super.loadCensusData(IndianCensusData.class, csvFilePath[0]);
+        Map<String, CensusDAO> censusMap = super.loadCensusData(IndianCensusDataCSV.class, csvFilePath[0]);
         if (csvFilePath.length == 1)
             return censusMap;
         return this.loadStateCodeCensusData(censusMap, csvFilePath[1]);
@@ -34,7 +34,7 @@ public class IndiaCensusAdapter extends CensusAdapter {
 
     //FUNCTION TO LOAD CENSUS DATA
     private <E> Map<String, CensusDAO> loadStateCodeCensusData(Map<String, CensusDAO> censusMap, String csvFilePath) throws MyExceptions {
-        String extension = StateCensusAnalyser.getFileExtension(csvFilePath);
+        String extension = IndiaUSStateCensusAnalyser.getFileExtension(csvFilePath);
         if (!Pattern.matches(PATTERN_FOR_CSV_FILE, extension))
             throw new MyExceptions(MyExceptions.Exception_Type.PATH_NOT_FOUND, "No such path");
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {

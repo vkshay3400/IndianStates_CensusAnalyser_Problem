@@ -1,15 +1,15 @@
 package com.bridgelabz.censusanalyserproject.service;
 
-import com.bridgelabz.censusanalyserproject.adapter.CensusAdapter;
-import com.bridgelabz.censusanalyserproject.adapter.CensusAdapterFactory;
-import com.bridgelabz.censusanalyserproject.dao.CensusDAO;
+import com.bridgelabz.censusanalyserproject.statecensus.indiauscensusadapter.CensusAdapter;
+import com.bridgelabz.censusanalyserproject.statecensus.indiauscensusadapter.CensusAdapterFactory;
+import com.bridgelabz.censusanalyserproject.censusdao.CensusDAO;
 import com.bridgelabz.censusanalyserproject.exception.MyExceptions;
 import com.google.gson.Gson;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class StateCensusAnalyser {
+public class IndiaUSStateCensusAnalyser {
 
     COUNTRY country;
     Map<String, CensusDAO> censusMap = new HashMap<>();
@@ -25,11 +25,11 @@ public class StateCensusAnalyser {
     }
 
     //DEFAULT CONSTRUCTOR
-    public StateCensusAnalyser() {
+    public IndiaUSStateCensusAnalyser() {
     }
 
     //PARAMETERISED CONSTRUCTOR
-    public StateCensusAnalyser(COUNTRY country) {
+    public IndiaUSStateCensusAnalyser(COUNTRY country) {
         this.country = country;
     }
 

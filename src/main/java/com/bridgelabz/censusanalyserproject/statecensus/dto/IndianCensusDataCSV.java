@@ -1,12 +1,12 @@
-package com.bridgelabz.censusanalyserproject.dto;
+package com.bridgelabz.censusanalyserproject.statecensus.dto;
 
 import com.opencsv.bean.CsvBindByName;
 
-public class IndianCensusData {
-    public IndianCensusData() {
+public class IndianCensusDataCSV {
+    public IndianCensusDataCSV() {
     }
 
-    public IndianCensusData(String state, String stateCode, int population, Double areaInSqKm, Double densityPerSqKm) {
+    public IndianCensusDataCSV(String state, String stateCode, int population, Double areaInSqKm, Double densityPerSqKm) {
         this.state = state;
         this.population = population;
         this.areaInSqKm = areaInSqKm;

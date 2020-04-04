@@ -1,8 +1,8 @@
-package com.bridgelabz.censusanalyserproject.dao;
+package com.bridgelabz.censusanalyserproject.censusdao;
 
-import com.bridgelabz.censusanalyserproject.dto.IndianCensusData;
-import com.bridgelabz.censusanalyserproject.dto.USCensusCSV;
-import com.bridgelabz.censusanalyserproject.service.StateCensusAnalyser;
+import com.bridgelabz.censusanalyserproject.statecensus.dto.IndianCensusDataCSV;
+import com.bridgelabz.censusanalyserproject.statecensus.dto.USCensusCSV;
+import com.bridgelabz.censusanalyserproject.service.IndiaUSStateCensusAnalyser;
 
 import java.util.Comparator;
 
@@ -23,7 +23,7 @@ public class CensusDAO {
         return densityPerSqKm;
     }
 
-    public CensusDAO(IndianCensusData csvStateCensus) {
+    public CensusDAO(IndianCensusDataCSV csvStateCensus) {
         this.state = csvStateCensus.state;
         this.population = csvStateCensus.population;
         this.areaInSqKm = csvStateCensus.areaInSqKm;
@@ -38,24 +38,24 @@ public class CensusDAO {
         this.population = usCensusCSV.population;
     }
 
-    public static Comparator<CensusDAO> getSortComparator(StateCensusAnalyser.SORTING_MODE mode) {
-        if (mode.equals(StateCensusAnalyser.SORTING_MODE.STATE))
+    public static Comparator<CensusDAO> getSortComparator(IndiaUSStateCensusAnalyser.SORTING_MODE mode) {
+        if (mode.equals(IndiaUSStateCensusAnalyser.SORTING_MODE.STATE))
             return Comparator.comparing(census -> census.state);
-        if (mode.equals(StateCensusAnalyser.SORTING_MODE.POPULATION))
+        if (mode.equals(IndiaUSStateCensusAnalyser.SORTING_MODE.POPULATION))
             return Comparator.comparing(census -> census.population);
-        if (mode.equals(StateCensusAnalyser.SORTING_MODE.DENSITY))
+        if (mode.equals(IndiaUSStateCensusAnalyser.SORTING_MODE.DENSITY))
             return Comparator.comparing(census -> census.densityPerSqKm);
-        if (mode.equals(StateCensusAnalyser.SORTING_MODE.AREA))
+        if (mode.equals(IndiaUSStateCensusAnalyser.SORTING_MODE.AREA))
             return Comparator.comparing(census -> census.areaInSqKm);
-        if (mode.equals(StateCensusAnalyser.SORTING_MODE.STATECODE))
+        if (mode.equals(IndiaUSStateCensusAnalyser.SORTING_MODE.STATECODE))
             return Comparator.comparing(census -> census.stateCode);
         return null;
     }
 
-    public Object getCensusDTO(StateCensusAnalyser.COUNTRY country) {
-        if (country.equals(StateCensusAnalyser.COUNTRY.INDIA))
-            return new IndianCensusData(state, stateCode, population, areaInSqKm, densityPerSqKm);
-        if (country.equals(StateCensusAnalyser.COUNTRY.US))
+    public Object getCensusDTO(IndiaUSStateCensusAnalyser.COUNTRY country) {
+        if (country.equals(IndiaUSStateCensusAnalyser.COUNTRY.INDIA))
+            return new IndianCensusDataCSV(state, stateCode, population, areaInSqKm, densityPerSqKm);
+        if (country.equals(IndiaUSStateCensusAnalyser.COUNTRY.US))
             return new USCensusCSV(stateCode, state, population, areaInSqKm, densityPerSqKm);
         return null;
     }

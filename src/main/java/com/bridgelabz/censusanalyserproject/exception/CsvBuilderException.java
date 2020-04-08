@@ -5,9 +5,9 @@ public class CsvBuilderException extends Exception {
         UNABLE_TO_PARSE, FILE_NOT_FOUND, PATH_NOT_FOUND, WRONG_DELIMITER_OR_HEADER;
     }
 
-    public MyExceptions.Exception_Type type;
+    public StateCensusExceptions.Exception_Type type;
 
-    public CsvBuilderException(MyExceptions.Exception_Type type, String message) {
+    public CsvBuilderException(StateCensusExceptions.Exception_Type type, String message) {
         super(message);
         this.type = type;
     }

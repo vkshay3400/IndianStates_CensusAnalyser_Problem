@@ -1,7 +1,7 @@
 package com.bridgelabz.censusanalyserproject.statecensus.builder;
 
 import com.bridgelabz.censusanalyserproject.exception.CsvBuilderException;
-import com.bridgelabz.censusanalyserproject.exception.MyExceptions;
+import com.bridgelabz.censusanalyserproject.exception.StateCensusExceptions;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
@@ -17,7 +17,7 @@ public class CsvBuilder implements IcsvBuilder {
             csvToBeanBuilder.withIgnoreLeadingWhiteSpace(true);
             return csvToBeanBuilder.build();
         } catch (IllegalStateException e) {
-            throw new CsvBuilderException(MyExceptions.Exception_Type.FILE_NOT_FOUND, "Wrong file");
+            throw new CsvBuilderException(StateCensusExceptions.Exception_Type.FILE_NOT_FOUND, "Wrong file");
         }
     }
 

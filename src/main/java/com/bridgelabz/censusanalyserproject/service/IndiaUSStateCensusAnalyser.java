@@ -3,7 +3,7 @@ package com.bridgelabz.censusanalyserproject.service;
 import com.bridgelabz.censusanalyserproject.statecensus.indiauscensusadapter.CensusAdapter;
 import com.bridgelabz.censusanalyserproject.statecensus.indiauscensusadapter.CensusAdapterFactory;
 import com.bridgelabz.censusanalyserproject.censusdao.CensusDAO;
-import com.bridgelabz.censusanalyserproject.exception.MyExceptions;
+import com.bridgelabz.censusanalyserproject.exception.StateCensusExceptions;
 import com.google.gson.Gson;
 
 import java.util.*;
@@ -34,16 +34,16 @@ public class IndiaUSStateCensusAnalyser {
     }
 
     //GENERIC METHOD TO LOAD COUNTRY
-    public int loadCensusData(String... csvFilePath) throws MyExceptions {
+    public int loadCensusData(String... csvFilePath) throws StateCensusExceptions {
         CensusAdapter censusLoader = CensusAdapterFactory.getCensusData(country);
         censusMap = censusLoader.loadCensusData(csvFilePath);
         return censusMap.size();
     }
 
     //METHOD TO SORT SORTING MODE
-    public String getSortCensusData(SORTING_MODE mode) throws MyExceptions {
+    public String getSortCensusData(SORTING_MODE mode) throws StateCensusExceptions {
         if (censusMap == null || censusMap.size() == 0) {
-            throw new MyExceptions(MyExceptions.Exception_Type.NO_SUCH_CENSUS_DATA, "Census data not found");
+            throw new StateCensusExceptions(StateCensusExceptions.Exception_Type.NO_SUCH_CENSUS_DATA, "Census data not found");
         }
         ArrayList censusList = censusMap.values().stream()
                 .sorted(CensusDAO.getSortComparator(mode))
@@ -53,9 +53,9 @@ public class IndiaUSStateCensusAnalyser {
     }
 
     //METHOD TO SORT POPULATION AND DENSITY
-    public String getSortCensusDataByPopulousStateWithDensity() throws MyExceptions {
+    public String getSortCensusDataByPopulousStateWithDensity() throws StateCensusExceptions {
         if (censusMap == null || censusMap.size() == 0)
-            throw new MyExceptions(MyExceptions.Exception_Type.NO_SUCH_CENSUS_DATA, "Census data not found");
+            throw new StateCensusExceptions(StateCensusExceptions.Exception_Type.NO_SUCH_CENSUS_DATA, "Census data not found");
         ArrayList censusDTO = censusMap.values().stream()
                 .sorted(Comparator.comparingInt(CensusDAO::getPopulation).thenComparingDouble(CensusDAO::getDensityPerSqKm))
                 .map(c -> c.getCensusDTO(country))

@@ -5,7 +5,7 @@ import com.bridgelabz.censusanalyserproject.service.IndiaUSStateCensusAnalyser;
 import com.bridgelabz.censusanalyserproject.statecensus.dto.IndianCensusDataCSV;
 import com.bridgelabz.censusanalyserproject.statecensus.dto.USCensusCSV;
 import com.bridgelabz.censusanalyserproject.exception.CsvBuilderException;
-import com.bridgelabz.censusanalyserproject.exception.MyExceptions;
+import com.bridgelabz.censusanalyserproject.exception.StateCensusExceptions;
 import com.bridgelabz.censusanalyserproject.statecensus.builder.CsvBuilderFactory;
 import com.bridgelabz.censusanalyserproject.statecensus.builder.IcsvBuilder;
 
@@ -24,13 +24,13 @@ public abstract class CensusAdapter {
 
     private static final String PATTERN_FOR_CSV_FILE = "^[a-zA-Z0-9./_@]*[.]+[c][s][v]$";
 
-    public abstract Map<String, CensusDAO> loadCensusData(String... csvFilePath) throws MyExceptions;
+    public abstract Map<String, CensusDAO> loadCensusData(String... csvFilePath) throws StateCensusExceptions;
 
-    public <E> Map<String, CensusDAO> loadCensusData(Class<E> censusCsvClass, String... csvFilePath) throws MyExceptions {
+    public <E> Map<String, CensusDAO> loadCensusData(Class<E> censusCsvClass, String... csvFilePath) throws StateCensusExceptions {
         Map<String, CensusDAO> censusMap = new HashMap<>();
         String extension = IndiaUSStateCensusAnalyser.getFileExtension(csvFilePath[0]);
         if (!Pattern.matches(PATTERN_FOR_CSV_FILE, extension))
-            throw new MyExceptions(MyExceptions.Exception_Type.PATH_NOT_FOUND, "No such path");
+            throw new StateCensusExceptions(StateCensusExceptions.Exception_Type.PATH_NOT_FOUND, "No such path");
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath[0]))) {
             IcsvBuilder csvBuilder = CsvBuilderFactory.createCsvBuilder();
             Iterator<E> stateCensusIterator = csvBuilder.getCSVFileIterator(reader, censusCsvClass);
@@ -47,16 +47,16 @@ public abstract class CensusAdapter {
                         .forEach(censusCSV -> censusMap.put(censusCSV.state, new CensusDAO(censusCSV)));
                 return censusMap;
             } else {
-                throw new MyExceptions(MyExceptions.Exception_Type.NO_SUCH_COUNTRY, "Wrong country name");
+                throw new StateCensusExceptions(StateCensusExceptions.Exception_Type.NO_SUCH_COUNTRY, "Wrong country name");
             }
         } catch (NoSuchFileException e) {
-            throw new MyExceptions(MyExceptions.Exception_Type.FILE_NOT_FOUND, "File not found");
+            throw new StateCensusExceptions(StateCensusExceptions.Exception_Type.FILE_NOT_FOUND, "File not found");
         } catch (IOException e) {
-            throw new MyExceptions(MyExceptions.Exception_Type.NO_SUCH_CENSUS_DATA, "No such data");
+            throw new StateCensusExceptions(StateCensusExceptions.Exception_Type.NO_SUCH_CENSUS_DATA, "No such data");
         } catch (CsvBuilderException e) {
             e.printStackTrace();
         } catch (RuntimeException e) {
-            throw new MyExceptions(MyExceptions.Exception_Type.WRONG_DELIMITER_OR_HEADER, "Incorrect Delimiter or Header");
+            throw new StateCensusExceptions(StateCensusExceptions.Exception_Type.WRONG_DELIMITER_OR_HEADER, "Incorrect Delimiter or Header");
         }
         return censusMap;
     }
